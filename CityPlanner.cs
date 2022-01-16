@@ -15,7 +15,6 @@ namespace city_planner
         public CityPlanner()
         {
             InitializeComponent();
-            var db = Database.GetInstance();
         }
     }
 }
