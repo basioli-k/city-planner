@@ -13,6 +13,8 @@ namespace city_planner
         private int y;
         private List<string> characteristics;
 
+        Node() { }
+
         // insert, konstruktori odgovarajuci
     }
 }
