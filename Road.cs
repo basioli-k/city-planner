@@ -8,8 +8,9 @@ namespace city_planner
 {
     class Road
     {
-        private Node src;
-        private Node dest;
+        private int id;
+        private int src;
+        private int dest;
         private List<string> characteristics;
     }
 }

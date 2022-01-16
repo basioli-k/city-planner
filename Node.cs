@@ -8,8 +8,11 @@ namespace city_planner
 {
     class Node
     {
+        private int id;
         private int x;
         private int y;
         private List<string> characteristics;
+
+        // insert, konstruktori odgovarajuci
     }
 }

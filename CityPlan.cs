@@ -23,6 +23,7 @@ namespace city_planner
         {
             var x = MousePosition.X - Location.X;
             var y = MousePosition.Y - Location.Y;
+            var database = Database.GetInstance();
             // if checked dodaj_cvor/add_vertex ...
                 // u bazu dodaj cvor
                 // draw_plan(filter) 
