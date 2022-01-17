@@ -8,18 +8,52 @@ namespace city_planner
 {
     class Dijkstra
     {
-        List<List<(long ind, long dist)>> adjacent = new List<List<(long ind, long dist)>> ();
+        List<(long ind, long dist)>[] adjacent = new List<(long ind, long dist)>[10000];
 
         Dictionary<long, long> parent = new Dictionary<long, long> ();
 
         Dictionary<long, bool> visited = new Dictionary<long, bool> ();
 
-        SortedList<long, (long ind, long parent)> priorityQueue = new SortedList<long, (long ind, long parent)> ();
+        List<(long dist, long ind, long parent)> priorityQueue = new List<(long dist, long ind, long parent)> ();
 
-        public Dijkstra(List<Node> nodes, List<Road> roads)
+        public Dijkstra()
+        {
+            /* TEST graf
+            adjacent = new List<(long ind, long dist)>[1000];
+            adjacent[1] = new List<(long ind, long dist)>();
+            adjacent[2] = new List<(long ind, long dist)>();
+            adjacent[3] = new List<(long ind, long dist)>();
+            adjacent[4] = new List<(long ind, long dist)>();
+            adjacent[5] = new List<(long ind, long dist)>();
+
+            adjacent[1].Add((2, 10));
+            adjacent[2].Add((1, 10));
+
+            adjacent[1].Add((3, 1));
+            adjacent[3].Add((1, 1));
+            
+            adjacent[3].Add((2, 8));
+            adjacent[2].Add((3, 8));
+            
+            adjacent[3].Add((4, 2));
+            adjacent[4].Add((3, 2));
+
+            adjacent[2].Add((4, 5));
+            adjacent[4].Add((2, 5));
+
+            adjacent[2].Add((5, 1));
+            adjacent[5].Add((2, 1));
+
+            adjacent[5].Add((4, 7));
+            adjacent[4].Add((5, 7));
+            */
+        }
+        public Dijkstra(List<Road> roads)
         {
             foreach (var road in roads)
             {
+                if (!adjacent[(int)road.Src].Any())
+                    adjacent[(int)road.Src] = new List<(long ind, long dist)>();
                 adjacent[(int)road.Src].Add((road.Dest, road.Distance()));
             }
         }
@@ -30,12 +64,13 @@ namespace city_planner
             visited.Clear();
 
             priorityQueue.Clear();
-            priorityQueue.Add(0, (start, - 1));
+            priorityQueue.Add((0, start, - 1));
 
             while (priorityQueue.Any())
             {
+                priorityQueue.Sort((x, y) => x.dist.CompareTo(y.dist));
                 // izbaci vec posjecene cvorove s vrha.
-                while (priorityQueue.Any() && visited[ priorityQueue.First().Value.ind ])
+                while (priorityQueue.Any() && visited.ContainsKey(priorityQueue.First().ind) && visited[ priorityQueue.First().ind ])
                 {
                     priorityQueue.RemoveAt(0);
                 }
@@ -43,9 +78,9 @@ namespace city_planner
                 if (!priorityQueue.Any()) return (-1, new List<long>());
 
                 // uzmi prvi iz priority priorityQueuea i oznaci da si ga posjetio.
-                var tmpdist = priorityQueue.First().Key;
-                var tmpind = priorityQueue.First().Value.ind;
-                var tmppar = priorityQueue.First().Value.parent;
+                var tmpdist = priorityQueue.First().dist;
+                var tmpind = priorityQueue.First().ind;
+                var tmppar = priorityQueue.First().parent;
 
                 visited[tmpind] = true;
                 parent[tmpind] = tmppar;
@@ -69,9 +104,9 @@ namespace city_planner
                 // prosiri se na djecu.
                 foreach (var v in adjacent[(int)tmpind])
                 {
-                    if (!visited[v.ind])
+                    if (!visited.ContainsKey(v.ind))
                     {
-                        priorityQueue.Add(tmpdist + v.dist, (v.ind, tmpind));
+                        priorityQueue.Add((tmpdist + v.dist, v.ind, tmpind));
                     }
                 }
 
