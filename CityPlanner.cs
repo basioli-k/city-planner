@@ -24,12 +24,29 @@ namespace city_planner
 
             if (radioButton1.Checked)
             {
-                cityPlan1.klik += handler;
+                cityPlan1.addPoint += handler;
             }
             else
             {
-                cityPlan1.klik -= handler;
+                cityPlan1.addPoint -= handler;
             }
+        }
+
+        private void radioButton2_CheckedChanged(object sender, EventArgs e)
+        {
+            EventHandler handler = (s, ee) => { };
+
+            if (radioButton2.Checked)
+            {
+                cityPlan1.addLine += handler;
+            }
+            else
+            {
+                cityPlan1.addLine -= handler;
+                cityPlan1.firstX = -1;
+                cityPlan1.firstY = -1;
+            }
+
         }
     }
 }
