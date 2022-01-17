@@ -10,9 +10,11 @@ namespace city_planner
     {
         List<List<(long ind, long dist)>> adjacent = new List<List<(long ind, long dist)>> ();
 
+        Dictionary<long, long> parent = new Dictionary<long, long> ();
+
         Dictionary<long, bool> visited = new Dictionary<long, bool> ();
 
-        SortedList<long, long> priorityQueue = new SortedList<long, long> ();
+        SortedList<long, (long ind, long parent)> priorityQueue = new SortedList<long, (long ind, long parent)> ();
 
         public Dijkstra(List<Node> nodes, List<Road> roads)
         {
@@ -22,45 +24,61 @@ namespace city_planner
             }
         }
 
-        public long Run(int start, int end)
+        public (long, List<long>) Run(int start, int end)
         {
+            parent.Clear();
             visited.Clear();
 
             priorityQueue.Clear();
-            priorityQueue.Add(0, start);
+            priorityQueue.Add(0, (start, - 1));
 
             while (priorityQueue.Any())
             {
                 // izbaci vec posjecene cvorove s vrha.
-                while (priorityQueue.Any() && visited[ priorityQueue.First().Value ])
+                while (priorityQueue.Any() && visited[ priorityQueue.First().Value.ind ])
                 {
                     priorityQueue.RemoveAt(0);
                 }
                 // Nemozemo doci do cilja.
-                if (!priorityQueue.Any()) return -1;
+                if (!priorityQueue.Any()) return (-1, new List<long>());
 
                 // uzmi prvi iz priority priorityQueuea i oznaci da si ga posjetio.
                 var tmpdist = priorityQueue.First().Key;
-                var tmpind = priorityQueue.First().Value;
+                var tmpind = priorityQueue.First().Value.ind;
+                var tmppar = priorityQueue.First().Value.parent;
 
                 visited[tmpind] = true;
+                parent[tmpind] = tmppar;
 
-                // ako si dosao do cilja vrati udaljenost.
-                if (tmpind == end) return tmpdist;
+                // ako si dosao do cilja vrati udaljenost i izracunaj put.
+                if (tmpind == end)
+                {
+                    List<long> path = new List<long>();
+                    path.Add(tmpind);
+                    while (parent[tmpind] != -1)
+                    {
+                        path.Add(parent[tmpind]);
+                        tmpind = parent[tmpind];
+
+                    }
+                    path.Reverse();
+
+                    return (tmpdist, path);
+                }
 
                 // prosiri se na djecu.
                 foreach (var v in adjacent[(int)tmpind])
                 {
                     if (!visited[v.ind])
                     {
-                        priorityQueue.Add(tmpdist + v.dist, v.ind);
+                        priorityQueue.Add(tmpdist + v.dist, (v.ind, tmpind));
                     }
                 }
 
             }
 
             // nisi uspio doci do cilja.
-            return -1;
+            return (-1, new List<long> ());
 
         }
     }
