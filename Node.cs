@@ -13,34 +13,118 @@ namespace city_planner
         private long x;
         private long y;
         private List<string> characteristics;
-
+        private List<Node> GetNodeFromDb(long x_, long y_)
+        {
+            var db = Database.GetInstance();
+            return db.ExecuteQuery<Node>("SELECT * FROM Node WHERE x=" + x_.ToString() + " AND y=" + y_.ToString() + ";");
+        }
         Node() { }
 
-        Node(long id_, long x_, long y_, string characteristics_)
+        public Node(long x_, long y_)
         {
-            id = id_;
-            x = x_;
-            y = y_;
-            characteristics = characteristics_.Split(',').ToList<string>();
+            var temp = GetNodeFromDb(x_, y_);
+            if (temp.Count() == 0)
+            {
+                x = x_;
+                y = y_;
+                characteristics = new List<string>();
+                insert();
+                temp = GetNodeFromDb(x_, y_);
+                id = temp[0].id;
+            }
+            else
+            {
+                x = temp[0].x;
+                y = temp[0].y;
+                characteristics = temp[0].characteristics;
+                id = temp[0].id;
+            }
         }
-        Node(long id_, long x_, long y_, List<string> characteristics_)
+
+        public Node(long id_, long x_, long y_, string characteristics_)
         {
-            id = id_;
-            x = x_;
-            y = y_;
-            characteristics = characteristics_;
+            var temp = GetNodeFromDb(x_, y_);
+            if (temp.Count() == 0)
+            {
+                x = x_;
+                y = y_;
+                characteristics = characteristics_.Split(',').ToList<string>();
+                insert();
+                temp = GetNodeFromDb(x_, y_);
+                id = temp[0].id;
+            }
+            else
+            {
+                x = temp[0].x;
+                y = temp[0].y;
+                characteristics = characteristics_.Split(',').ToList<string>();
+                id = temp[0].id;
+                update();
+            }
+            
         }
-        Node(long x_, long y_, string characteristics_)
+        public Node(long id_, long x_, long y_, List<string> characteristics_)
         {
-            x = x_;
-            y = y_;
-            characteristics = characteristics_.Split(',').ToList<string>();
+            var temp = GetNodeFromDb(x_, y_);
+            if (temp.Count() == 0)
+            {
+                x = x_;
+                y = y_;
+                characteristics = characteristics_;
+                insert();
+                temp = GetNodeFromDb(x_, y_);
+                id = temp[0].id;
+            }
+            else
+            {
+                x = temp[0].x;
+                y = temp[0].y;
+                characteristics = characteristics_;
+                id = temp[0].id;
+                update();
+            }
         }
-        Node(long x_, long y_, List<string> characteristics_)
+        public Node(long x_, long y_, string characteristics_)
         {
-            x = x_;
-            y = y_;
-            characteristics = characteristics_;
+            var temp = GetNodeFromDb(x_, y_);
+            if (temp.Count() == 0)
+            {
+                x = x_;
+                y = y_;
+                characteristics = characteristics_.Split(',').ToList<string>();
+                insert();
+                temp = GetNodeFromDb(x_, y_);
+                id = temp[0].id;
+            }
+            else
+            {
+                x = temp[0].x;
+                y = temp[0].y;
+                characteristics = characteristics_.Split(',').ToList<string>();
+                id = temp[0].id;
+                update();
+            }
+        }
+        public Node(long x_, long y_, List<string> characteristics_)
+        {
+            var temp = GetNodeFromDb(x_, y_);
+            if (temp.Count() == 0)
+            {
+                x = x_;
+                y = y_;
+                characteristics = characteristics_;
+                insert();
+                temp = GetNodeFromDb(x_, y_);
+                id = temp[0].id;
+            }
+            else
+            {
+                x = temp[0].x;
+                y = temp[0].y;
+                characteristics = characteristics_;
+                id = temp[0].id;
+                update();
+            }
         }
         public Node(SQLiteDataReader reader)
         {
@@ -51,11 +135,17 @@ namespace city_planner
             characteristics = ((string)reader["characteristics"]).Split(',').ToList<string>();
         }
 
-        public void insert()
+        private void insert()
         {
             string sql = "INSERT INTO Node (x, y, characteristics) VALUES(" +
-                x.ToString() + "," + y.ToString() + "," + String.Join(",", characteristics) + ");";
+                x.ToString() + "," + y.ToString() + ",\"" + String.Join(",", characteristics) + "\");";
 
+            var db = Database.GetInstance();
+            db.ExecuteNonQuery(sql);
+        }
+        private void update()
+        {
+            string sql = "UPDATE Node SET characteristics=\"" + String.Join(",", characteristics) + "\" WHERE id=" + id.ToString() + ";";
             var db = Database.GetInstance();
             db.ExecuteNonQuery(sql);
         }
@@ -65,6 +155,12 @@ namespace city_planner
             string sql = "SELECT * FROM Node;";
             var db = Database.GetInstance();
             return db.ExecuteQuery<Node>(sql);
+        }
+        public void delete()
+        {
+            string sql = "DELETE FROM Node WHERE id=" + id.ToString() + ";";
+            var db = Database.GetInstance();
+            db.ExecuteNonQuery(sql);
         }
 
         public override string ToString()
