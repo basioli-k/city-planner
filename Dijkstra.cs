@@ -8,13 +8,13 @@ namespace city_planner
 {
     class Dijkstra
     {
-        List<(long ind, long dist)>[] adjacent = new List<(long ind, long dist)>[10000];
+        List<(long ind, double dist)>[] adjacent = new List<(long ind, double dist)>[10000];
 
         Dictionary<long, long> parent = new Dictionary<long, long> ();
 
         Dictionary<long, bool> visited = new Dictionary<long, bool> ();
 
-        List<(long dist, long ind, long parent)> priorityQueue = new List<(long dist, long ind, long parent)> ();
+        List<(double dist, long ind, long parent)> priorityQueue = new List<(double dist, long ind, long parent)> ();
 
         public Dijkstra()
         {
@@ -53,12 +53,12 @@ namespace city_planner
             foreach (var road in roads)
             {
                 if (!adjacent[(int)road.Src].Any())
-                    adjacent[(int)road.Src] = new List<(long ind, long dist)>();
+                    adjacent[(int)road.Src] = new List<(long ind, double dist)>();
                 adjacent[(int)road.Src].Add((road.Dest, road.Distance()));
             }
         }
 
-        public (long, List<long>) Run(int start, int end)
+        public (double, List<long>) Run(int start, int end)
         {
             parent.Clear();
             visited.Clear();

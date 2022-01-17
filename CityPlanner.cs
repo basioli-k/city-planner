@@ -17,5 +17,36 @@ namespace city_planner
             InitializeComponent();
             var db = Database.GetInstance();
         }
+
+        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        {
+            EventHandler handler = (s, ee) => { };
+
+            if (radioButton1.Checked)
+            {
+                cityPlan1.addPoint += handler;
+            }
+            else
+            {
+                cityPlan1.addPoint -= handler;
+            }
+        }
+
+        private void radioButton2_CheckedChanged(object sender, EventArgs e)
+        {
+            EventHandler handler = (s, ee) => { };
+
+            if (radioButton2.Checked)
+            {
+                cityPlan1.addLine += handler;
+            }
+            else
+            {
+                cityPlan1.addLine -= handler;
+                cityPlan1.firstX = -1;
+                cityPlan1.firstY = -1;
+            }
+
+        }
     }
 }

@@ -68,11 +68,12 @@ namespace city_planner
             this.radioButton2.AutoSize = true;
             this.radioButton2.Location = new System.Drawing.Point(5, 28);
             this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(85, 17);
+            this.radioButton2.Size = new System.Drawing.Size(67, 17);
             this.radioButton2.TabIndex = 1;
             this.radioButton2.TabStop = true;
-            this.radioButton2.Text = "radioButton2";
+            this.radioButton2.Text = "Add Line";
             this.radioButton2.UseVisualStyleBackColor = true;
+            this.radioButton2.CheckedChanged += new System.EventHandler(this.radioButton2_CheckedChanged);
             // 
             // radioButton1
             // 
@@ -84,6 +85,7 @@ namespace city_planner
             this.radioButton1.TabStop = true;
             this.radioButton1.Text = "Add Point";
             this.radioButton1.UseVisualStyleBackColor = true;
+            this.radioButton1.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
             // 
             // tabPage2
             // 
@@ -99,7 +101,7 @@ namespace city_planner
             // cityPlan1
             // 
             this.cityPlan1.BackColor = System.Drawing.Color.White;
-            this.cityPlan1.Location = new System.Drawing.Point(11, 64);
+            this.cityPlan1.Location = new System.Drawing.Point(24, 64);
             this.cityPlan1.Margin = new System.Windows.Forms.Padding(2);
             this.cityPlan1.Name = "cityPlan1";
             this.cityPlan1.Size = new System.Drawing.Size(443, 339);
