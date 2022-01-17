@@ -8,9 +8,9 @@ namespace city_planner
 {
     class Node
     {
-        private int id;
-        private int x;
-        private int y;
+        private long id;
+        private long x;
+        private long y;
         private List<string> characteristics;
 
         Node() { }
