@@ -19,14 +19,19 @@ namespace city_planner
             InitializeComponent();
         }
 
+        public event EventHandler klik;
+
         private void CityPlan_MouseClick(object sender, MouseEventArgs e)
         {
             var x = e.X;
             var y = e.Y;
             var database = Database.GetInstance();
 
-            crtaj_tocku(x, y);
-
+            if(klik != null)
+            {
+                klik(this, EventArgs.Empty);
+                crtaj_tocku(x, y);
+            }
 
             // if checked dodaj_cvor/add_vertex ...
             // u bazu dodaj cvor
