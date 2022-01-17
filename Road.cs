@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 
 namespace city_planner
 {
+    // Road class which represents crossroads/squares
+    // Road class takes care of its interaction with the database
     class Road
     {
         private long id;

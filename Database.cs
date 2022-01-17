@@ -8,10 +8,12 @@ using System.IO;
 
 namespace city_planner
 {
+    // singleton database class
     class Database
     {
         private Database()
         {
+            // create sql file if it doesn't exist
             if (!File.Exists("database.db"))
             {
                 SQLiteConnection.CreateFile("database.db");
@@ -20,12 +22,13 @@ namespace city_planner
             dbConnection.Open();
             CreateTables();
         }
-        // Executes query without returning the results
+        // Executes query without returning the results (for inserts, deletes, updates, creates)
         public void ExecuteNonQuery(string sql)
         {
             SQLiteCommand command = new SQLiteCommand(sql, dbConnection);
             command.ExecuteNonQuery();
         }
+        // executes query and returns list of results (for selects)
         public List<T> ExecuteQuery<T>(string sql)
         {
             List<T> queryResults = new List<T>();
