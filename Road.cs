@@ -7,6 +7,12 @@ using System.Threading.Tasks;
 
 namespace city_planner
 {
+    class InvalidSrcDestPair : Exception
+    {
+        public InvalidSrcDestPair(string message)
+        {
+        }
+    }
     // Road class which represents crossroads/squares
     // Road class takes care of its interaction with the database
     class Road
@@ -15,12 +21,7 @@ namespace city_planner
         private long src;
         private long dest;
         private List<string> characteristics;
-        private List<Road> GetRoadFromDb(long src_, long dest_)
-        {
-            var db = Database.GetInstance();
-            return db.ExecuteQuery<Road>("SELECT * FROM Road WHERE src=" + src_.ToString() + " AND dest=" + dest_.ToString() + ";");
-        }
-
+        
         public long Id
         {
             get;set;
@@ -37,12 +38,27 @@ namespace city_planner
         {
             get;set;
         }
-        public long Distance()
+        public double Distance()
         {
-            //TODO: izracunaj udaljenost.
-            return 1;
-        }
+            var srcDestPair = GetSourceAndDest();
 
+            return Math.Sqrt((double)((srcDestPair.Item1.X - srcDestPair.Item2.X) * (srcDestPair.Item1.X - srcDestPair.Item2.X) +
+                (srcDestPair.Item1.Y - srcDestPair.Item2.Y) * (srcDestPair.Item1.Y - srcDestPair.Item2.Y)));
+        }
+        private Tuple<Node, Node> GetSourceAndDest()
+        {
+            string sql = "SELECT * FROM Node WHERE id=" + src.ToString() + " OR id=" + dest.ToString() + ";";
+            var db = Database.GetInstance();
+            var res = db.ExecuteQuery<Node>(sql);
+            if (res.Count != 2)
+                throw new InvalidSrcDestPair("(" + src.ToString() + "," + dest.ToString() + ") node pairs not in database.");
+            return new Tuple<Node, Node>(res[0], res[1]);
+        }
+        private List<Road> GetRoadFromDb(long src_, long dest_)
+        {
+            var db = Database.GetInstance();
+            return db.ExecuteQuery<Road>("SELECT * FROM Road WHERE src=" + src_.ToString() + " AND dest=" + dest_.ToString() + ";");
+        }
         Road() { }
 
         public Road(long src_, long dest_)

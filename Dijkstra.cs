@@ -8,13 +8,13 @@ namespace city_planner
 {
     class Dijkstra
     {
-        List<List<(long ind, long dist)>> adjacent = new List<List<(long ind, long dist)>> ();
+        List<List<(long ind, double dist)>> adjacent = new List<List<(long ind, double dist)>> ();
 
         Dictionary<long, long> parent = new Dictionary<long, long> ();
 
         Dictionary<long, bool> visited = new Dictionary<long, bool> ();
 
-        SortedList<long, (long ind, long parent)> priorityQueue = new SortedList<long, (long ind, long parent)> ();
+        SortedList<double, (long ind, long parent)> priorityQueue = new SortedList<double, (long ind, long parent)> ();
 
         public Dijkstra(List<Node> nodes, List<Road> roads)
         {
@@ -24,7 +24,7 @@ namespace city_planner
             }
         }
 
-        public (long, List<long>) Run(int start, int end)
+        public (double, List<long>) Run(int start, int end)
         {
             parent.Clear();
             visited.Clear();

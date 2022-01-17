@@ -15,6 +15,12 @@ namespace city_planner
         private long x;
         private long y;
         private List<string> characteristics;
+
+        public long Id { get { return id; } set { id = value; } }
+        public long X { get { return x; } set { x = value; } }
+        public long Y { get { return y; } set { y = value; } }
+        public List<string> Characteristics { get { return characteristics; } set { characteristics= value; } }
+
         private List<Node> GetNodeFromDb(long x_, long y_)
         {
             var db = Database.GetInstance();
