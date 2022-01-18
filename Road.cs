@@ -24,19 +24,19 @@ namespace city_planner
         
         public long Id
         {
-            get;set;
+            get { return id; } set { id = value; }
         }
         public long Src
         {
-            get;set;
+            get { return src; } set { src = value; }
         }
         public long Dest
         {
-            get;set;
+            get { return dest; } set { dest = value; }
         }
         public List<string> Characteristics
         {
-            get;set;
+            get { return characteristics; } set { characteristics = value; }
         }
         public double Distance()
         {

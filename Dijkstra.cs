@@ -8,7 +8,7 @@ namespace city_planner
 {
     class Dijkstra
     {
-        List<(long ind, double dist)>[] adjacent = new List<(long ind, double dist)>[10000];
+        public List<(long ind, double dist)>[] adjacent = new List<(long ind, double dist)>[10000];
 
         Dictionary<long, long> parent = new Dictionary<long, long> ();
 
@@ -50,15 +50,16 @@ namespace city_planner
         }
         public Dijkstra(List<Road> roads)
         {
+            for (int i = 0; i < adjacent.Length; i++)
+                adjacent[i] = new List<(long ind, double dist)>();
             foreach (var road in roads)
             {
-                if (!adjacent[(int)road.Src].Any())
-                    adjacent[(int)road.Src] = new List<(long ind, double dist)>();
                 adjacent[(int)road.Src].Add((road.Dest, road.Distance()));
             }
+
         }
 
-        public (double, List<long>) Run(int start, int end)
+        public (double, List<long>) calculateRoute(long start, long end)
         {
             parent.Clear();
             visited.Clear();
@@ -81,6 +82,7 @@ namespace city_planner
                 var tmpdist = priorityQueue.First().dist;
                 var tmpind = priorityQueue.First().ind;
                 var tmppar = priorityQueue.First().parent;
+                priorityQueue.RemoveAt(0);
 
                 visited[tmpind] = true;
                 parent[tmpind] = tmppar;
