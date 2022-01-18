@@ -103,7 +103,7 @@ namespace city_planner
             var g = CreateGraphics();
             g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
 
-            g.DrawEllipse(Pens.Black, insertingNode.X - (int)vertex_radius / 2, insertingNode.Y - (int)vertex_radius / 2, (float)vertex_radius, (float)vertex_radius);
+            g.FillEllipse(Brushes.Black, insertingNode.X - (int)vertex_radius / 2, insertingNode.Y - (int)vertex_radius / 2, (float)vertex_radius, (float)vertex_radius);
         }
 
         void drawLine(Node Node1,Node Node2)
@@ -111,7 +111,8 @@ namespace city_planner
             var g = CreateGraphics();
             g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
 
-            g.DrawLine(Pens.Black, Node1.X, Node1.Y, Node2.X, Node2.Y);
+            Pen blackPen = new Pen(Color.FromArgb(255, 0, 0, 0), (float)road_width);
+            g.DrawLine(blackPen, Node1.X, Node1.Y, Node2.X, Node2.Y);
         }
 
     }

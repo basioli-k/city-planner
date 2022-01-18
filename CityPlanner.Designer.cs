@@ -60,7 +60,7 @@ namespace city_planner
             this.tabPage1.Padding = new System.Windows.Forms.Padding(2);
             this.tabPage1.Size = new System.Drawing.Size(272, 239);
             this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "tabPage1";
+            this.tabPage1.Text = "Controls";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // radioButton2
@@ -101,8 +101,11 @@ namespace city_planner
             // cityPlan1
             // 
             this.cityPlan1.BackColor = System.Drawing.Color.White;
+            this.cityPlan1.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.cityPlan1.FirstX = -1;
+            this.cityPlan1.FirstY = -1;
             this.cityPlan1.Location = new System.Drawing.Point(24, 64);
-            this.cityPlan1.Margin = new System.Windows.Forms.Padding(2);
+            this.cityPlan1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.cityPlan1.Name = "cityPlan1";
             this.cityPlan1.Size = new System.Drawing.Size(443, 339);
             this.cityPlan1.TabIndex = 2;
