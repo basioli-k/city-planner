@@ -17,7 +17,6 @@ namespace city_planner
 
         private int firstX = -1;
         private int firstY = -1;
-        private long id;
 
         private List<Node> listNodes = new List<Node>();
         private List<Road> listRoads = new List<Road>();
@@ -69,7 +68,6 @@ namespace city_planner
                     {
                         firstX = (int)listNodes[i].X;
                         firstY = (int)listNodes[i].Y;
-                        id = listNodes[i].Id;
                     }
                 }
                 else
@@ -88,11 +86,12 @@ namespace city_planner
                     if (roadValid)
                     {
                         addLine(this, EventArgs.Empty);
-                        
-                        drawLine(firstX , firstY, (int)listNodes[i].X, (int)listNodes[i].Y);
+
+                        Node Node1 = new Node(firstX, firstY);
+                        Node Node2 = new Node(listNodes[i].X, listNodes[i].Y);
+                        drawLine(Node1, Node2);
                         firstX = -1;
                         firstY = -1;
-                        id = -1;
                     }
                 }
             }
@@ -107,12 +106,12 @@ namespace city_planner
             g.DrawEllipse(Pens.Black, insertingNode.X - (int)vertex_radius / 2, insertingNode.Y - (int)vertex_radius / 2, (float)vertex_radius, (float)vertex_radius);
         }
 
-        void drawLine(int firstX, int firstY, int secondX, int secondY)
+        void drawLine(Node Node1,Node Node2)
         {
             var g = CreateGraphics();
             g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
 
-            g.DrawLine(Pens.Black, firstX, firstY, secondX, secondY);
+            g.DrawLine(Pens.Black, Node1.X, Node1.Y, Node2.X, Node2.Y);
         }
 
     }
