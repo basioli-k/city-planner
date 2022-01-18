@@ -43,8 +43,8 @@ namespace city_planner
             else
             {
                 cityPlan1.addLine -= handler;
-                cityPlan1.firstX = -1;
-                cityPlan1.firstY = -1;
+                cityPlan1.FirstX = -1;
+                cityPlan1.FirstY = -1;
             }
 
         }
