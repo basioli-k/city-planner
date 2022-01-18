@@ -37,7 +37,6 @@ namespace city_planner
             var y = e.Y;
             var database = Database.GetInstance();
             bool roadValid = false;
-            int halfR = (int)vertex_radius / 2;
 
             //listNodes = Node.select_star();
             //listRoads = Road.select_star();
@@ -89,6 +88,8 @@ namespace city_planner
 
                         Node Node1 = new Node(firstX, firstY);
                         Node Node2 = new Node(listNodes[i].X, listNodes[i].Y);
+                        Road insertingRoad = new Road(Node1.Id, Node2.Id);
+                        listRoads.Add(insertingRoad);
                         drawLine(Node1, Node2);
                         firstX = -1;
                         firstY = -1;
