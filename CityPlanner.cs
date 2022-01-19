@@ -15,7 +15,6 @@ namespace city_planner
         public CityPlanner()
         {
             InitializeComponent();
-            var db = Database.GetInstance();
             cityPlan1.TabIndex = 0;
         }
 
@@ -75,6 +74,30 @@ namespace city_planner
                 cityPlan1.FirstX = -1;
                 cityPlan1.FirstY = -1;
             }
+            else if (radioButton3.Checked)
+            {
+                radioButton3.Checked = false;
+            }
+            else if (radioButton4.Checked)
+            {
+                radioButton4.Checked = false;
+            }
+            else if (radioButton5.Checked)
+            {
+                radioButton5.Checked = false;
+            }
+            else if (radioButton6.Checked)
+            {
+                radioButton6.Checked = false;
+            }
+            else if (radioButton7.Checked)
+            {
+                radioButton7.Checked = false;
+            }
+            else if (radioButton8.Checked)
+            {
+                radioButton8.Checked = false;
+            }
         }
 
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
@@ -107,6 +130,10 @@ namespace city_planner
                     textBox3.Text = t.ToString();
                 };
                 
+            }
+            else if (tabControl1.SelectedIndex == 2)
+            {
+
             }
 
             uncheckRadioButtons();
@@ -149,6 +176,20 @@ namespace city_planner
             Int32.TryParse(textBox2.Text, out x);
             TimeSpan t = TimeSpan.FromSeconds((int)(x / 1));
             textBox3.Text = t.ToString();
+        }
+
+        private void radioButton7_CheckedChanged(object sender, EventArgs e)
+        {
+            EventHandler handler = (s, ee) => { };
+
+            if (radioButton7.Checked)
+            {
+                cityPlan1.getObjectDetails += handler;
+            }
+            else
+            {
+                cityPlan1.getObjectDetails -= handler;
+            }
         }
     }
 }

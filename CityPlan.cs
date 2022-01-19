@@ -40,13 +40,16 @@ namespace city_planner
         public event EventHandler addPoint;
         public event EventHandler addLine;
         public event EventHandler deleteObject;
+        public event EventHandler getObjectDetails;
 
         private void CityPlan_MouseClick(object sender, MouseEventArgs e)
         {
             if (tabIndex == 0)
                 handleControls(sender, e);
-            else
+            else if (tabIndex == 1)
                 handleRoute(sender, e);
+            else if (tabIndex == 2)
+                handleCharacteristics(sender, e);
         }
 
         void handleControls(object sender, MouseEventArgs e)
@@ -199,8 +202,6 @@ namespace city_planner
             }
 
             if (end == -1) return;
-            repaintNodes(Brushes.Black);
-            repaintRoads(Brushes.Black);
 
             Dijkstra dijkstra = new Dijkstra(listRoads);
             double dist = double.PositiveInfinity;
@@ -258,6 +259,32 @@ namespace city_planner
             end = -1;
         }
 
+        private void handleCharacteristics(object o, MouseEventArgs e)
+        {
+            var x = e.X;
+            var y = e.Y;
+            
+            if (getObjectDetails != null)
+            {
+                foreach(var nd in listNodes)
+                {
+                    if ( Math.Sqrt((x - nd.X) * (x - nd.X) + (y - nd.Y) * (y - nd.Y)) <= vertex_radius)
+                    {
+                        MessageBox.Show(nd.ToString());
+                        return;
+                    }
+                }
+                    
+                foreach(var road in listRoads)
+                {
+                    if (IsPointOnRoad(road, x, y))
+                    {
+                        MessageBox.Show(road.ToString());
+                        return;
+                    }
+                }
+            }
+        }
 
 
         public void repaintNodes(Brush brush)
@@ -322,13 +349,13 @@ namespace city_planner
             Pen blackPen = new Pen(Color.Black, (float)road_width);
             foreach (var node in listNodes)
             {
-                if (filterNodes != null && filterNodes.Contains(node)) drawNode(node, filterNodeBrush);
+                if (filterNodes != null && filterNodes.FindIndex(nd => nd.Id == node.Id) != -1) drawNode(node, filterNodeBrush);
                 else drawNode(node, Brushes.Black);
             }
 
             foreach (var road in listRoads)
             {
-                if (filterRoads != null && filterRoads.Contains(road)) drawRoad(road, filterRoadPen);
+                if (filterRoads != null && filterRoads.FindIndex(rd => rd.Id == road.Id) != -1) drawRoad(road, filterRoadPen);
                 else drawRoad(road, blackPen);
             }
             ResumeLayout();

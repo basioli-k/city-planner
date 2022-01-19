@@ -46,9 +46,9 @@ namespace city_planner
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.cityPlan1 = new city_planner.CityPlan();
-            this.radioButton7 = new System.Windows.Forms.RadioButton();
             this.radioButton8 = new System.Windows.Forms.RadioButton();
+            this.radioButton7 = new System.Windows.Forms.RadioButton();
+            this.cityPlan1 = new city_planner.CityPlan();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -261,6 +261,29 @@ namespace city_planner
             this.tabPage3.Text = "Characteristics";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
+            // radioButton8
+            // 
+            this.radioButton8.AutoSize = true;
+            this.radioButton8.Location = new System.Drawing.Point(6, 33);
+            this.radioButton8.Name = "radioButton8";
+            this.radioButton8.Size = new System.Drawing.Size(145, 21);
+            this.radioButton8.TabIndex = 1;
+            this.radioButton8.TabStop = true;
+            this.radioButton8.Text = "Get objects with ...";
+            this.radioButton8.UseVisualStyleBackColor = true;
+            // 
+            // radioButton7
+            // 
+            this.radioButton7.AutoSize = true;
+            this.radioButton7.Location = new System.Drawing.Point(6, 6);
+            this.radioButton7.Name = "radioButton7";
+            this.radioButton7.Size = new System.Drawing.Size(139, 21);
+            this.radioButton7.TabIndex = 0;
+            this.radioButton7.TabStop = true;
+            this.radioButton7.Text = "Get object details";
+            this.radioButton7.UseVisualStyleBackColor = true;
+            this.radioButton7.CheckedChanged += new System.EventHandler(this.radioButton7_CheckedChanged);
+            // 
             // cityPlan1
             // 
             this.cityPlan1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -279,28 +302,6 @@ namespace city_planner
             this.cityPlan1.Size = new System.Drawing.Size(591, 417);
             this.cityPlan1.Start = ((long)(-1));
             this.cityPlan1.TabIndex = 2;
-            // 
-            // radioButton7
-            // 
-            this.radioButton7.AutoSize = true;
-            this.radioButton7.Location = new System.Drawing.Point(6, 6);
-            this.radioButton7.Name = "radioButton7";
-            this.radioButton7.Size = new System.Drawing.Size(139, 21);
-            this.radioButton7.TabIndex = 0;
-            this.radioButton7.TabStop = true;
-            this.radioButton7.Text = "Get object details";
-            this.radioButton7.UseVisualStyleBackColor = true;
-            // 
-            // radioButton8
-            // 
-            this.radioButton8.AutoSize = true;
-            this.radioButton8.Location = new System.Drawing.Point(6, 33);
-            this.radioButton8.Name = "radioButton8";
-            this.radioButton8.Size = new System.Drawing.Size(145, 21);
-            this.radioButton8.TabIndex = 1;
-            this.radioButton8.TabStop = true;
-            this.radioButton8.Text = "Get objects with ...";
-            this.radioButton8.UseVisualStyleBackColor = true;
             // 
             // CityPlanner
             // 

@@ -188,21 +188,23 @@ namespace city_planner
             return id.ToString() + "," + x.ToString() + "," + y.ToString() + "," + String.Join(" ", characteristics);
         }
 
-        public override bool Equals(object o)
-        {
-            return ((Node)o).id == id;
-        }
-        public override int GetHashCode()
-        {
-            return this.ToString().GetHashCode();
-        }
-        public static bool operator ==(Node n1, Node n2)
-        {
-            return n1.Equals(n2);
-        }
-        public static bool operator !=(Node n1, Node n2)
-        {
-            return !n1.Equals(n2);
-        }
+        //public override bool Equals(object o)
+        //{
+        //    return ((Node)o).id == id;
+        //}
+        //public override int GetHashCode()
+        //{
+        //    return this.ToString().GetHashCode();
+        //}
+        //public static bool operator ==(Node n1, Node n2)
+        //{
+        //    if ((object)n1 == null || (object)n2 == null) return false;
+        //    return n1.Equals(n2);
+        //}
+        //public static bool operator !=(Node n1, Node n2)
+        //{
+        //    if ((object)n1 == null || (object)n2 == null) return true;
+        //    return !n1.Equals(n2);
+        //}
     }
 }
