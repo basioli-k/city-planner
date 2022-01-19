@@ -209,5 +209,22 @@ namespace city_planner
         {
             return id.ToString() + "," + src.ToString() + "," + dest.ToString() + "," + String.Join(" ", characteristics);
         }
+
+        public override bool Equals(object o)
+        {
+            return ((Road)o).id == id;
+        }
+        public override int GetHashCode()
+        {
+            return this.ToString().GetHashCode();
+        }
+        public static bool operator ==(Road r1, Road r2)
+        {  
+            return r1.Equals(r2);  
+        }
+        public static bool operator !=(Road r1, Road r2)
+        {
+            return !r1.Equals(r2);
+        }
     }
 }

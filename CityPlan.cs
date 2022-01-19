@@ -54,6 +54,7 @@ namespace city_planner
             var x = e.X;
             var y = e.Y;
             bool roadValid = false;
+            string charactericstics = null;
 
             listNodes = Node.select_star();
             listRoads = Road.select_star();
@@ -69,7 +70,16 @@ namespace city_planner
                     }
                 }
                 if (!overlap) {
-                    Node insertingNode = new Node(x, y);
+                    charactericstics = popup();
+                    Node insertingNode = new Node();
+                    if (charactericstics == null)
+                    {
+                        insertingNode = new Node(x, y);
+                    }
+                    else
+                    { 
+                        insertingNode = new Node(x, y, charactericstics);
+                    }
                     listNodes.Add(insertingNode);
                     drawNode(insertingNode, Brushes.Black);
                 }
@@ -233,11 +243,21 @@ namespace city_planner
 
             print_dist?.Invoke(this, dist);
 
-            drawPath(path);
+            List<Node> nodesToColor = listNodes.FindAll(node => path.Contains(node.Id));
+            List<Road> roadsToColor = listRoads.FindAll(road => {
+                var srcInd = path.IndexOf(road.Src);
+                var destInd = path.IndexOf(road.Dest);
+                return srcInd != -1 && destInd != -1 && srcInd == destInd - 1; 
+            });
+
+            Pen roadPen = new Pen(Color.Blue, (float)road_width);
+            drawAllPointsAndRoads(nodesToColor, roadsToColor, Brushes.Blue, roadPen);
 
             start = -1;
             end = -1;
         }
+
+
 
         public void repaintNodes(Brush brush)
         {
@@ -255,33 +275,6 @@ namespace city_planner
             }
         }
 
-        void drawPath(List<long> path)
-        {
-            foreach(var intersection in path)
-            {
-                foreach(var node in listNodes)
-                {
-                    if (node.Id == intersection)
-                    {
-                        drawNode(node, Brushes.Blue);
-                        break;
-                    }
-                }
-            }
-
-            for(int i = 0; i < path.Count() - 1; i++)
-            {
-                foreach(var road in listRoads)
-                {
-                    if (road.Src == path[i] && road.Dest == path[i + 1])
-                    {
-                        drawRoad(road, new Pen(Brushes.White));
-                        drawRoad(road, new Pen(Brushes.Blue));
-                        break;
-                    }
-                }
-            }
-        }
 
         void drawNode(Node insertingNode, Brush brush)
         {
@@ -293,19 +286,9 @@ namespace city_planner
 
         void drawRoad(Road road, Pen pen)
         {
-            Node src = new Node();
-            Node dest = new Node();
-            foreach(var node in listNodes)
-            {
-                if (node.Id == road.Src)
-                {
-                    src = node;
-                }
-                else if (node.Id == road.Dest)
-                {
-                    dest = node;
-                }
-            }
+            var srcDest = road.GetSourceAndDest();
+            Node src = srcDest.Item1;
+            Node dest = srcDest.Item2;
             drawLine(src, dest, pen);
         }
 
@@ -327,7 +310,7 @@ namespace city_planner
             //drawAllPointsAndRoads();
         }
 
-        void drawAllPointsAndRoads()
+        void drawAllPointsAndRoads(List<Node> filterNodes = null, List<Road> filterRoads = null, Brush filterNodeBrush = null, Pen filterRoadPen = null)
         {
             SuspendLayout();
             var g = CreateGraphics();
@@ -335,17 +318,33 @@ namespace city_planner
             g.Clear(Color.White);
             listNodes = Node.select_star();
             listRoads = Road.select_star();
-            Pen blackPen = new Pen(Color.FromArgb(255, 0, 0, 0), (float)road_width);
-            for (int i = 0; i < listNodes.Count; i++)
+            Pen blackPen = new Pen(Color.Black, (float)road_width);
+            foreach (var node in listNodes)
             {
-                drawNode(listNodes[i], Brushes.Black);
+                if (filterNodes != null && filterNodes.Contains(node)) drawNode(node, filterNodeBrush);
+                else drawNode(node, Brushes.Black);
             }
 
-            for (int i = 0; i < listRoads.Count; i++)
+            foreach (var road in listRoads)
             {
-                drawRoad(listRoads[i], blackPen);
+                if (filterRoads != null && filterRoads.Contains(road)) drawRoad(road, filterRoadPen);
+                else drawRoad(road, blackPen);
             }
             ResumeLayout();
+        }
+
+        string popup()
+        {
+            string characteristics = null;
+            using (Characteristics ch = new Characteristics())
+            {
+                if( ch.ShowDialog() == DialogResult.OK )
+                {
+                    characteristics = ch.text;
+                }
+            }
+
+            return characteristics;
         }
 
     }

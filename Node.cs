@@ -188,6 +188,21 @@ namespace city_planner
             return id.ToString() + "," + x.ToString() + "," + y.ToString() + "," + String.Join(" ", characteristics);
         }
 
-        // insert, konstruktori odgovarajuci
+        public override bool Equals(object o)
+        {
+            return ((Node)o).id == id;
+        }
+        public override int GetHashCode()
+        {
+            return this.ToString().GetHashCode();
+        }
+        public static bool operator ==(Node n1, Node n2)
+        {
+            return n1.Equals(n2);
+        }
+        public static bool operator !=(Node n1, Node n2)
+        {
+            return !n1.Equals(n2);
+        }
     }
 }
