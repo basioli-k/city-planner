@@ -70,7 +70,11 @@ namespace city_planner
                 cityPlan1.IndexTab = 1;
                 cityPlan1.Start = -1;
                 cityPlan1.End = -1;
-                EventHandler handler = (s, ee) => { };
+                textBox2.Text = "0";
+                cityPlan1.print_dist += (sender1, dist) =>
+                {
+                   textBox2.Text = dist.ToString();
+                };
                 if (radioButton1.Checked)
                 {
                     radioButton1.Checked = false;
@@ -88,6 +92,21 @@ namespace city_planner
                 cityPlan1.repaintNodes(Brushes.Black);
                 cityPlan1.repaintRoads(Brushes.Black);
             }
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label1_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            cityPlan1.Characteristic = textBox1.Text;
         }
     }
 }

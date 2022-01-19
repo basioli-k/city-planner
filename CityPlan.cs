@@ -20,6 +20,7 @@ namespace city_planner
 
         private long start = -1;
         private long end = -1;
+        private string characteristic = "";
 
         private List<Node> listNodes = new List<Node>();
         private List<Road> listRoads = new List<Road>();
@@ -28,6 +29,7 @@ namespace city_planner
         public int IndexTab { get { return tabIndex; } set { tabIndex = value; } }
         public long Start { get { return start; } set { start = value; } }
         public long End { get { return end; } set { end = value; } }
+        public string Characteristic { get { return characteristic; } set { characteristic = value; } }
         public int FirstX { get { return firstX; } set { firstX = value; } }
         public int FirstY { get { return firstY; } set { firstY = value; } }
         public CityPlan()
@@ -165,6 +167,8 @@ namespace city_planner
                 <= Math.Sqrt(road_len*road_len + (double) road_width * road_width / 4); //TODO double check s nekim
         }
 
+        public event EventHandler<double> print_dist;
+
         void handleRoute(object sender, MouseEventArgs e)
         {
             var x = e.X;
@@ -185,14 +189,49 @@ namespace city_planner
             }
 
             if (end == -1) return;
-
             repaintNodes(Brushes.Black);
             repaintRoads(Brushes.Black);
+
             Dijkstra dijkstra = new Dijkstra(listRoads);
+            double dist = double.PositiveInfinity;
+            List<long> path = new List<long>();
 
-            (double dist, List<long> path) = dijkstra.calculateRoute(start, end);
+            // Ako moramo stati negdje
+            if (characteristic != "")
+            {
+                // pronadi sva krizanja sa zadanom karakteristikom
+                foreach (var stop in listNodes.FindAll(node => node.Characteristics.Contains(characteristic)))
+                {
+                    (double dist1, List<long> path1) = dijkstra.calculateRoute(start, stop.Id);
+                    (double dist2, List<long> path2) = dijkstra.calculateRoute(stop.Id, end);
 
-            MessageBox.Show(dist.ToString());
+                    if (dist1 + dist2 < dist)
+                    {
+                        dist = dist1 + dist2;
+                        path = path1.Concat(path2).ToList();
+                    }
+                }
+
+                // pronadi sve ceste sa zadanom karakteriskom
+                foreach (var road in listRoads.FindAll(road => road.Characteristics.Contains(characteristic)))
+                {
+                    (double dist1, List<long> path1) = dijkstra.calculateRoute(start, road.Src);
+                    (double dist2, List<long> path2) = dijkstra.calculateRoute(road.Dest, end);
+
+                    if (dist1 + dist2 + road.Distance() < dist)
+                    {
+                        dist = dist1 + dist2 + road.Distance();
+                        path = path1.Concat(path2).ToList();
+                    }
+                }
+            }
+            // Ako samo trazimo najkraci put od start do end
+            else
+            {
+                (dist, path) = dijkstra.calculateRouteSmart(start, end, listNodes);
+            }
+
+            print_dist?.Invoke(this, dist);
 
             drawPath(path);
 
@@ -280,12 +319,12 @@ namespace city_planner
 
         private void CityPlan_Load(object sender, EventArgs e)
         {
-            drawAllPointsAndRoads();
+            //drawAllPointsAndRoads();
         }
 
         private void CityPlan_Paint(object sender, PaintEventArgs e)
         {
-            drawAllPointsAndRoads();
+            //drawAllPointsAndRoads();
         }
 
         void drawAllPointsAndRoads()

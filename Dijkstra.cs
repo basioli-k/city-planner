@@ -59,6 +59,59 @@ namespace city_planner
 
         }
 
+        public (double, List<long>) calculateRouteSmart(long start, long end, List<Node> listNodes)
+        {
+            Dictionary<long, long> previous = new Dictionary<long, long>();
+            Dictionary<long, double> distance = new Dictionary<long, double>();
+            HashSet<long> q = new HashSet<long>();
+
+            foreach(var node in listNodes)
+            {
+                distance[node.Id] = long.MaxValue;
+                previous[node.Id] = -1;
+                q.Add(node.Id);
+            }
+            distance[start] = 0;
+
+            while (q.Count() != 0)
+            {
+                double tmpdist = double.MaxValue;
+                long tmpnode = -1;
+                foreach (var node in q)
+                    if (distance[node] < tmpdist)
+                    {
+                        tmpdist = distance[node];
+                        tmpnode = node;
+                    }
+
+                q.Remove(tmpnode);
+
+                if (tmpnode == end)
+                {
+                    List<long> path = new List<long>();
+                    path.Add(tmpnode);
+                    while (previous[tmpnode] != -1)
+                    {
+                        path.Add(previous[tmpnode]);
+                        tmpnode = previous[tmpnode];
+
+                    }
+                    path.Reverse();
+
+                    return (tmpdist, path);
+                }
+
+                foreach(var v in adjacent[(int)tmpnode])
+                    if (tmpdist + v.dist < distance[v.ind])
+                    {
+                        distance[v.ind] = tmpdist + v.dist;
+                        previous[v.ind] = tmpnode;
+                    }
+            }
+
+            return (double.PositiveInfinity, new List<long>());
+        }
+
         public (double, List<long>) calculateRoute(long start, long end)
         {
             parent.Clear();
@@ -76,7 +129,7 @@ namespace city_planner
                     priorityQueue.RemoveAt(0);
                 }
                 // Nemozemo doci do cilja.
-                if (!priorityQueue.Any()) return (-1, new List<long>());
+                if (!priorityQueue.Any()) return (double.PositiveInfinity, new List<long>());
 
                 // uzmi prvi iz priority priorityQueuea i oznaci da si ga posjetio.
                 var tmpdist = priorityQueue.First().dist;
@@ -115,7 +168,7 @@ namespace city_planner
             }
 
             // nisi uspio doci do cilja.
-            return (-1, new List<long> ());
+            return (double.PositiveInfinity, new List<long> ());
 
         }
     }
