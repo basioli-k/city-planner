@@ -52,6 +52,7 @@ namespace city_planner
             var x = e.X;
             var y = e.Y;
             bool roadValid = false;
+            string charactericstics = null;
 
             listNodes = Node.select_star();
             listRoads = Road.select_star();
@@ -67,7 +68,16 @@ namespace city_planner
                     }
                 }
                 if (!overlap) {
-                    Node insertingNode = new Node(x, y);
+                    charactericstics = popup();
+                    Node insertingNode = new Node();
+                    if (charactericstics == null)
+                    {
+                        insertingNode = new Node(x, y);
+                    }
+                    else
+                    { 
+                        insertingNode = new Node(x, y, charactericstics);
+                    }
                     listNodes.Add(insertingNode);
                     drawNode(insertingNode, Brushes.Black);
                 }
@@ -307,6 +317,20 @@ namespace city_planner
                 drawRoad(listRoads[i], blackPen);
             }
             ResumeLayout();
+        }
+
+        string popup()
+        {
+            string characteristics = null;
+            using (Characteristics ch = new Characteristics())
+            {
+                if( ch.ShowDialog() == DialogResult.OK )
+                {
+                    characteristics = ch.text;
+                }
+            }
+
+            return characteristics;
         }
 
     }
