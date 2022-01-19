@@ -53,8 +53,8 @@ namespace city_planner
             var y = e.Y;
             bool roadValid = false;
 
-            //listNodes = Node.select_star();
-            //listRoads = Road.select_star();
+            listNodes = Node.select_star();
+            listRoads = Road.select_star();
             if(addPoint != null)
             {
                 addPoint(this, EventArgs.Empty);
@@ -134,16 +134,16 @@ namespace city_planner
                 foreach(var road in roadsToDelete)
                 {
                     listRoads.Remove(road);
-                    drawRoad(road, Pens.White); // TODO antonio makni ovu liniju kad slozis sto treba
                     road.delete();
                 }
                 if (temp != null)
                 {
                     listNodes.Remove(temp);
-                    drawNode(temp, Brushes.White); // TODO antonio makni ovu liniju kad slozis sto treba
                     temp.delete();
                 }
-                
+
+                drawAllPointsAndRoads();
+
             }
         }
         private bool IsPointOnRoad(Road road, long x, long y)
@@ -254,8 +254,8 @@ namespace city_planner
 
         void drawRoad(Road road, Pen pen)
         {
-            Node src = new Node(0,0);
-            Node dest = new Node(0,0);
+            Node src = new Node();
+            Node dest = new Node();
             foreach(var node in listNodes)
             {
                 if (node.Id == road.Src)
@@ -276,6 +276,37 @@ namespace city_planner
             g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
 
             g.DrawLine(pen, Node1.X, Node1.Y, Node2.X, Node2.Y);
+        }
+
+        private void CityPlan_Load(object sender, EventArgs e)
+        {
+            drawAllPointsAndRoads();
+        }
+
+        private void CityPlan_Paint(object sender, PaintEventArgs e)
+        {
+            drawAllPointsAndRoads();
+        }
+
+        void drawAllPointsAndRoads()
+        {
+            SuspendLayout();
+            var g = CreateGraphics();
+            g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+            g.Clear(Color.White);
+            listNodes = Node.select_star();
+            listRoads = Road.select_star();
+            Pen blackPen = new Pen(Color.FromArgb(255, 0, 0, 0), (float)road_width);
+            for (int i = 0; i < listNodes.Count; i++)
+            {
+                drawNode(listNodes[i], Brushes.Black);
+            }
+
+            for (int i = 0; i < listRoads.Count; i++)
+            {
+                drawRoad(listRoads[i], blackPen);
+            }
+            ResumeLayout();
         }
 
     }

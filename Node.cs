@@ -26,7 +26,7 @@ namespace city_planner
             var db = Database.GetInstance();
             return db.ExecuteQuery<Node>("SELECT * FROM Node WHERE x=" + x_.ToString() + " AND y=" + y_.ToString() + ";");
         }
-        Node() { }
+        public Node() { }
         // returns a node that doesn't end up in the database, use carefully
         static public Node GetNonDbNode(long x_, long y_)
         {
