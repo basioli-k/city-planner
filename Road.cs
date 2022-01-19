@@ -45,7 +45,7 @@ namespace city_planner
             return Math.Sqrt((double)((srcDestPair.Item1.X - srcDestPair.Item2.X) * (srcDestPair.Item1.X - srcDestPair.Item2.X) +
                 (srcDestPair.Item1.Y - srcDestPair.Item2.Y) * (srcDestPair.Item1.Y - srcDestPair.Item2.Y)));
         }
-        private Tuple<Node, Node> GetSourceAndDest()
+        public Tuple<Node, Node> GetSourceAndDest()
         {
             string sql = "SELECT * FROM Node WHERE id=" + src.ToString() + " OR id=" + dest.ToString() + ";";
             var db = Database.GetInstance();

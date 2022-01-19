@@ -27,7 +27,14 @@ namespace city_planner
             return db.ExecuteQuery<Node>("SELECT * FROM Node WHERE x=" + x_.ToString() + " AND y=" + y_.ToString() + ";");
         }
         Node() { }
-
+        // returns a node that doesn't end up in the database, use carefully
+        static public Node GetNonDbNode(long x_, long y_)
+        {
+            var node = new Node();
+            node.x = x_;
+            node.y = y_;
+            return node;
+        }
         public Node(long x_, long y_)
         {
             var temp = GetNodeFromDb(x_, y_);
@@ -171,6 +178,11 @@ namespace city_planner
             db.ExecuteNonQuery(sql);
         }
 
+        static public double Distance(Node n1, Node n2)
+        {
+            return Math.Sqrt((double)((n1.X - n2.X) * (n1.X - n2.X) +
+                (n1.Y - n2.Y) * (n1.Y - n2.Y)));
+        }
         public override string ToString()
         {
             return id.ToString() + "," + x.ToString() + "," + y.ToString() + "," + String.Join(" ", characteristics);

@@ -37,6 +37,7 @@ namespace city_planner
 
         public event EventHandler addPoint;
         public event EventHandler addLine;
+        public event EventHandler deleteObject;
 
         private void CityPlan_MouseClick(object sender, MouseEventArgs e)
         {
@@ -50,7 +51,6 @@ namespace city_planner
         {
             var x = e.X;
             var y = e.Y;
-            var database = Database.GetInstance();
             bool roadValid = false;
 
             //listNodes = Node.select_star();
@@ -121,6 +121,48 @@ namespace city_planner
                     }
                 }
             }
+
+            // delete the node or road
+            // if deleting node delete all adjacent roads
+            if (deleteObject != null)
+            {
+                var temp = listNodes.Find(node => 
+                                        Math.Sqrt((double)((node.X - x)* (node.X - x) + (node.Y - y)* (node.Y - y))) <= vertex_radius);
+
+                var roadsToDelete = listRoads.FindAll(road => IsPointOnRoad(road, x, y));
+
+                foreach(var road in roadsToDelete)
+                {
+                    listRoads.Remove(road);
+                    drawRoad(road, Pens.White); // TODO antonio makni ovu liniju kad slozis sto treba
+                    road.delete();
+                }
+                if (temp != null)
+                {
+                    listNodes.Remove(temp);
+                    drawNode(temp, Brushes.White); // TODO antonio makni ovu liniju kad slozis sto treba
+                    temp.delete();
+                }
+                
+            }
+        }
+        private bool IsPointOnRoad(Road road, long x, long y)
+        {
+            var srcDest = road.GetSourceAndDest();
+            
+            var src = srcDest.Item1;
+            var dest = srcDest.Item2;
+            
+            if (Math.Sqrt((double)((src.X - x) * (src.X - x) + (src.Y - y) * (src.Y - y))) <= vertex_radius ||
+                Math.Sqrt((double)((dest.X - x) * (dest.X - x) + (dest.Y - y) * (dest.Y - y))) <= vertex_radius)
+            {
+                return true;
+            }
+
+            var tempPoint = Node.GetNonDbNode(x, y);
+            var road_len = Node.Distance(src, dest);
+            return Node.Distance(src, tempPoint) + Node.Distance(tempPoint, dest)
+                <= Math.Sqrt(road_len*road_len + (double) road_width * road_width / 4); //TODO double check s nekim
         }
 
         void handleRoute(object sender, MouseEventArgs e)

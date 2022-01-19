@@ -49,6 +49,19 @@ namespace city_planner
             }
 
         }
+        private void radioButton3_CheckedChanged(object sender, EventArgs e)
+        {
+            EventHandler handler = (s, ee) => { };
+
+            if (radioButton3.Checked)
+            {
+                cityPlan1.deleteObject += handler;
+            }
+            else
+            {
+                cityPlan1.deleteObject-= handler;
+            }
+        }
 
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
