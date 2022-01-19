@@ -71,9 +71,22 @@ namespace city_planner
                 cityPlan1.Start = -1;
                 cityPlan1.End = -1;
                 textBox2.Text = "0";
+                textBox3.Text = TimeSpan.FromSeconds(0).ToString();
                 cityPlan1.print_dist += (sender1, dist) =>
                 {
-                   textBox2.Text = dist.ToString();
+                    if (dist == double.PositiveInfinity)
+                    {
+                        textBox2.Text = dist.ToString();
+                        textBox3.Text = TimeSpan.FromSeconds(0).ToString();
+                        return;
+                    }
+                    textBox2.Text = ((int)dist).ToString();
+                    long speed = 1;
+                    if (radioButton4.Checked) speed = 12;
+                    if (radioButton5.Checked) speed = 4;
+                    if (radioButton6.Checked) speed = 1;
+                    TimeSpan t = TimeSpan.FromSeconds((int) (dist / speed));
+                    textBox3.Text = t.ToString();
                 };
                 if (radioButton1.Checked)
                 {
@@ -107,6 +120,30 @@ namespace city_planner
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
             cityPlan1.Characteristic = textBox1.Text;
+        }
+
+        private void radioButton4_CheckedChanged(object sender, EventArgs e)
+        {
+            int x = 0;
+            Int32.TryParse(textBox2.Text, out x);
+            TimeSpan t = TimeSpan.FromSeconds((int)(x / 12));
+            textBox3.Text = t.ToString();
+        }
+
+        private void radioButton5_CheckedChanged(object sender, EventArgs e)
+        {
+            int x = 0;
+            Int32.TryParse(textBox2.Text, out x);
+            TimeSpan t = TimeSpan.FromSeconds((int)(x / 8));
+            textBox3.Text = t.ToString();
+        }
+
+        private void radioButton6_CheckedChanged(object sender, EventArgs e)
+        {
+            int x = 0;
+            Int32.TryParse(textBox2.Text, out x);
+            TimeSpan t = TimeSpan.FromSeconds((int)(x / 1));
+            textBox3.Text = t.ToString();
         }
     }
 }
