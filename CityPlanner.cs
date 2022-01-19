@@ -63,11 +63,29 @@ namespace city_planner
             }
         }
 
+        private void uncheckRadioButtons()
+        {
+            if (radioButton1.Checked)
+            {
+                radioButton1.Checked = false;
+            }
+            else if (radioButton2.Checked)
+            {
+                radioButton2.Checked = false;
+                cityPlan1.FirstX = -1;
+                cityPlan1.FirstY = -1;
+            }
+        }
+
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (tabControl1.SelectedIndex == 1) 
+            cityPlan1.IndexTab = tabControl1.SelectedIndex;
+            if (tabControl1.SelectedIndex == 0) 
             {
-                cityPlan1.IndexTab = 1;
+                
+            }
+            else if (tabControl1.SelectedIndex == 1)
+            {
                 cityPlan1.Start = -1;
                 cityPlan1.End = -1;
                 textBox2.Text = "0";
@@ -85,26 +103,13 @@ namespace city_planner
                     if (radioButton4.Checked) speed = 12;
                     if (radioButton5.Checked) speed = 4;
                     if (radioButton6.Checked) speed = 1;
-                    TimeSpan t = TimeSpan.FromSeconds((int) (dist / speed));
+                    TimeSpan t = TimeSpan.FromSeconds((int)(dist / speed));
                     textBox3.Text = t.ToString();
                 };
-                if (radioButton1.Checked)
-                {
-                    radioButton1.Checked = false;
-                }
-                else if (radioButton2.Checked)
-                {
-                    radioButton2.Checked = false;
-                    cityPlan1.FirstX = -1;
-                    cityPlan1.FirstY = -1;
-                }
+                
             }
-            else
-            {
-                cityPlan1.IndexTab = 0;
-                cityPlan1.repaintNodes(Brushes.Black);
-                cityPlan1.repaintRoads(Brushes.Black);
-            }
+
+            uncheckRadioButtons();
         }
 
         private void label1_Click(object sender, EventArgs e)

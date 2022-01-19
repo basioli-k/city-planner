@@ -303,12 +303,12 @@ namespace city_planner
 
         private void CityPlan_Load(object sender, EventArgs e)
         {
-            //drawAllPointsAndRoads();
+            drawAllPointsAndRoads();
         }
 
         private void CityPlan_Paint(object sender, PaintEventArgs e)
         {
-            //drawAllPointsAndRoads();
+            drawAllPointsAndRoads();
         }
 
         void drawAllPointsAndRoads(List<Node> filterNodes = null, List<Road> filterRoads = null, Brush filterNodeBrush = null, Pen filterRoadPen = null)
