@@ -212,12 +212,13 @@ namespace city_planner
                 // pronadi sva krizanja sa zadanom karakteristikom
                 foreach (var stop in listNodes.FindAll(node => node.Characteristics.Contains(characteristic)))
                 {
-                    (double dist1, List<long> path1) = dijkstra.calculateRoute(start, stop.Id);
-                    (double dist2, List<long> path2) = dijkstra.calculateRoute(stop.Id, end);
+                    (double dist1, List<long> path1) = dijkstra.calculateRoute(start, stop.Id, listNodes);
+                    (double dist2, List<long> path2) = dijkstra.calculateRoute(stop.Id, end, listNodes);
 
                     if (dist1 + dist2 < dist)
                     {
                         dist = dist1 + dist2;
+                        path2.Remove(stop.Id);
                         path = path1.Concat(path2).ToList();
                     }
                 }
@@ -225,8 +226,8 @@ namespace city_planner
                 // pronadi sve ceste sa zadanom karakteriskom
                 foreach (var road in listRoads.FindAll(road => road.Characteristics.Contains(characteristic)))
                 {
-                    (double dist1, List<long> path1) = dijkstra.calculateRoute(start, road.Src);
-                    (double dist2, List<long> path2) = dijkstra.calculateRoute(road.Dest, end);
+                    (double dist1, List<long> path1) = dijkstra.calculateRoute(start, road.Src, listNodes);
+                    (double dist2, List<long> path2) = dijkstra.calculateRoute(road.Dest, end, listNodes);
 
                     if (dist1 + dist2 + road.Distance() < dist)
                     {
@@ -238,7 +239,7 @@ namespace city_planner
             // Ako samo trazimo najkraci put od start do end
             else
             {
-                (dist, path) = dijkstra.calculateRouteSmart(start, end, listNodes);
+                (dist, path) = dijkstra.calculateRoute(start, end, listNodes);
             }
 
             print_dist?.Invoke(this, dist);

@@ -59,7 +59,7 @@ namespace city_planner
 
         }
 
-        public (double, List<long>) calculateRouteSmart(long start, long end, List<Node> listNodes)
+        public (double, List<long>) calculateRoute(long start, long end, List<Node> listNodes)
         {
             Dictionary<long, long> previous = new Dictionary<long, long>();
             Dictionary<long, double> distance = new Dictionary<long, double>();
@@ -67,7 +67,7 @@ namespace city_planner
 
             foreach(var node in listNodes)
             {
-                distance[node.Id] = long.MaxValue;
+                distance[node.Id] = double.MaxValue;
                 previous[node.Id] = -1;
                 q.Add(node.Id);
             }
@@ -83,6 +83,8 @@ namespace city_planner
                         tmpdist = distance[node];
                         tmpnode = node;
                     }
+
+                if (tmpdist == double.MaxValue) return (double.PositiveInfinity, new List<long>());
 
                 q.Remove(tmpnode);
 
@@ -112,7 +114,7 @@ namespace city_planner
             return (double.PositiveInfinity, new List<long>());
         }
 
-        public (double, List<long>) calculateRoute(long start, long end)
+        public (double, List<long>) calculateRouteSlow(long start, long end)
         {
             parent.Clear();
             visited.Clear();
