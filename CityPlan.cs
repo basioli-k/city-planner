@@ -204,32 +204,12 @@ namespace city_planner
 
             MessageBox.Show(dist.ToString());
 
-            List<Node> nodesToColor = new List<Node>();
-            List<Road> roadsToColor = new List<Road>();
-            
-            foreach (var intersection in path)
-            {
-                foreach (var node in listNodes)
-                {
-                    if (node.Id == intersection)
-                    {
-                        nodesToColor.Add(node);
-                        break;
-                    }
-                }
-            }
-
-            for (int i = 0; i < path.Count() - 1; i++)
-            {
-                foreach (var road in listRoads)
-                {
-                    if (road.Src == path[i] && road.Dest == path[i + 1])
-                    {
-                        roadsToColor.Add(road);
-                        break;
-                    }
-                }
-            }
+            List<Node> nodesToColor = listNodes.FindAll(node => path.Contains(node.Id));
+            List<Road> roadsToColor = listRoads.FindAll(road => {
+                var srcInd = path.IndexOf(road.Src);
+                var destInd = path.IndexOf(road.Dest);
+                return srcInd != -1 && destInd != -1 && srcInd == destInd - 1; 
+            });
 
             Pen roadPen = new Pen(Color.Blue, (float)road_width);
             drawAllPointsAndRoads(nodesToColor, roadsToColor, Brushes.Blue, roadPen);
