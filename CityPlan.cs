@@ -57,7 +57,7 @@ namespace city_planner
             var x = e.X;
             var y = e.Y;
             bool roadValid = false;
-            string charactericstics = null;
+            List<string> charactericstics = new List<string>();
 
             listNodes = Node.select_star();
             listRoads = Road.select_star();
@@ -361,17 +361,16 @@ namespace city_planner
             ResumeLayout();
         }
 
-        string popup()
+        List<string> popup()
         {
-            string characteristics = null;
+            List<string> characteristics = new List<string>();
             using (Characteristics ch = new Characteristics())
             {
                 if( ch.ShowDialog() == DialogResult.OK )
                 {
-                    characteristics = ch.text;
+                    characteristics = ch.FinalCharacterictics;
                 }
             }
-
             return characteristics;
         }
 
