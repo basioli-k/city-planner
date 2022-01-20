@@ -9,7 +9,7 @@ namespace city_planner
 {
     // Node class which represents crossroads/squares
     // Node class takes care of its interaction with the database
-    class Node
+    public class Node
     {
         private long id;
         private long x;
@@ -186,6 +186,26 @@ namespace city_planner
         public override string ToString()
         {
             return id.ToString() + "," + x.ToString() + "," + y.ToString() + "," + String.Join(" ", characteristics);
+        }
+
+        public bool hasAllCharacteristics(List<string> chars)
+        {
+            foreach (var c in chars)
+            {
+                if (!characteristics.Contains(c)) return false;
+            }
+
+            return true;
+        }
+
+        public bool hasAnyCharacteristics(List<string> chars)
+        {
+            foreach (var c in chars)
+            {
+                if (characteristics.Contains(c)) return true;
+            }
+
+            return false;
         }
 
         //public override bool Equals(object o)

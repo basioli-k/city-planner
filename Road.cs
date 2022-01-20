@@ -15,7 +15,7 @@ namespace city_planner
     }
     // Road class which represents crossroads/squares
     // Road class takes care of its interaction with the database
-    class Road
+    public class Road
     {
         private long id;
         private long src;
@@ -208,6 +208,28 @@ namespace city_planner
         public override string ToString()
         {
             return id.ToString() + "," + src.ToString() + "," + dest.ToString() + "," + String.Join(" ", characteristics);
+        }
+
+        public bool hasAllCharacteristics(List<string> chars)
+        {
+            if (chars.Count != characteristics.Count) return false;
+
+            foreach(var c in chars)
+            {
+                if (!characteristics.Contains(c)) return false;
+            }
+
+            return true;
+        }
+
+        public bool hasAnyCharacteristics(List<string> chars)
+        {
+            foreach (var c in chars)
+            {
+                if (characteristics.Contains(c)) return true;
+            }
+
+            return false;
         }
 
         //public override bool Equals(object o)

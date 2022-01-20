@@ -32,6 +32,8 @@ namespace city_planner
         public string Characteristic { get { return characteristic; } set { characteristic = value; } }
         public int FirstX { get { return firstX; } set { firstX = value; } }
         public int FirstY { get { return firstY; } set { firstY = value; } }
+        public List<Node> ListNodes { get { return listNodes; } }
+        public List<Road> ListRoads { get { return listRoads; } }
         public CityPlan()
         {
             InitializeComponent();
@@ -45,11 +47,17 @@ namespace city_planner
         private void CityPlan_MouseClick(object sender, MouseEventArgs e)
         {
             if (tabIndex == 0)
+            {
                 handleControls(sender, e);
+            }   
             else if (tabIndex == 1)
+            {
                 handleRoute(sender, e);
+            }
             else if (tabIndex == 2)
+            {
                 handleCharacteristics(sender, e);
+            }
         }
 
         void handleControls(object sender, MouseEventArgs e)
@@ -157,7 +165,7 @@ namespace city_planner
                     temp.delete();
                 }
 
-                drawAllPointsAndRoads();
+                DrawAllPointsAndRoads();
 
             }
         }
@@ -253,7 +261,7 @@ namespace city_planner
             });
 
             Pen roadPen = new Pen(Color.Blue, (float)road_width);
-            drawAllPointsAndRoads(nodesToColor, roadsToColor, Brushes.Blue, roadPen);
+            DrawAllPointsAndRoads(nodesToColor, roadsToColor, Brushes.Blue, roadPen);
 
             start = -1;
             end = -1;
@@ -330,15 +338,15 @@ namespace city_planner
 
         private void CityPlan_Load(object sender, EventArgs e)
         {
-            drawAllPointsAndRoads();
+            DrawAllPointsAndRoads();
         }
 
         private void CityPlan_Paint(object sender, PaintEventArgs e)
         {
-            drawAllPointsAndRoads();
+            DrawAllPointsAndRoads();
         }
 
-        void drawAllPointsAndRoads(List<Node> filterNodes = null, List<Road> filterRoads = null, Brush filterNodeBrush = null, Pen filterRoadPen = null)
+        public void DrawAllPointsAndRoads(List<Node> filterNodes = null, List<Road> filterRoads = null, Brush filterNodeBrush = null, Pen filterRoadPen = null)
         {
             SuspendLayout();
             var g = CreateGraphics();

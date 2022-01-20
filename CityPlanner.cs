@@ -12,6 +12,9 @@ namespace city_planner
 {
     public partial class CityPlanner : Form
     {
+        private List<Label> labels = new List<Label>();
+        private List<Button> buttons = new List<Button>();
+
         public CityPlanner()
         {
             InitializeComponent();
@@ -103,12 +106,14 @@ namespace city_planner
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
             cityPlan1.IndexTab = tabControl1.SelectedIndex;
+            uncheckRadioButtons();
             if (tabControl1.SelectedIndex == 0) 
             {
-                
+                radioButton1.Checked = true;
             }
             else if (tabControl1.SelectedIndex == 1)
             {
+                radioButton4.Checked = true;
                 cityPlan1.Start = -1;
                 cityPlan1.End = -1;
                 textBox2.Text = "0";
@@ -133,10 +138,8 @@ namespace city_planner
             }
             else if (tabControl1.SelectedIndex == 2)
             {
-
+                radioButton7.Checked = true;
             }
-
-            uncheckRadioButtons();
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -181,15 +184,90 @@ namespace city_planner
         private void radioButton7_CheckedChanged(object sender, EventArgs e)
         {
             EventHandler handler = (s, ee) => { };
-
+                    
             if (radioButton7.Checked)
             {
                 cityPlan1.getObjectDetails += handler;
+                button1.Visible = false;
+                button2.Visible = false;
+                textBox4.Visible = false;
+                panel1.Controls.Clear();
+                labels.Clear();
+                buttons.Clear();
             }
             else
             {
                 cityPlan1.getObjectDetails -= handler;
             }
+        }
+
+        private void radioButton8_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioButton8.Checked)
+            {
+                button1.Visible = true;
+                button2.Visible = true;
+                textBox4.Visible = true;
+                panel1.Controls.Clear();
+                labels.Clear();
+                buttons.Clear();
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (textBox4.Text != null)
+            {
+                Label label = new Label();
+                label.Text = textBox4.Text;
+                label.Left = panel1.Location.X + 5;
+                label.Width = panel1.Width / 2;
+
+                Button btn = new Button();
+                btn.Text = "delete";
+                btn.Left = panel1.Location.X + panel1.Width - btn.Width - 30;
+
+                labels.Add(label);
+                buttons.Add(btn);
+
+                btn.Click += (send, ee) =>
+                {
+                    var ind = buttons.IndexOf((Button)send);
+                    buttons.Remove(buttons[ind]);
+                    labels.Remove(labels[ind]);
+                    drawPanel();
+                };
+                textBox4.Text = null;
+                drawPanel();
+            }
+        }
+
+        void drawPanel()
+        {
+            SuspendLayout();
+            panel1.Controls.Clear();
+            for (int i = 0; i < buttons.Count; i++)
+            {
+                labels[i].Top = 8 + 25 * i;
+
+                if (radioButton8.Checked)
+                    buttons[i].Top = 5 + 25 * i;
+
+                panel1.Controls.Add(labels[i]);
+
+                if (radioButton8.Checked)
+                    panel1.Controls.Add(buttons[i]);
+
+            }
+            ResumeLayout();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            List<string> lbls = (from lbl in labels select lbl.Text).ToList<string>();
+            var nodes = cityPlan1.ListNodes.FindAll(node => node.hasAllCharacteristics(lbls));
+            var roads = cityPlan1.ListRoads.FindAll(road=> road.hasAllCharacteristics(lbls));
+            cityPlan1.DrawAllPointsAndRoads(nodes, roads, Brushes.Red, Pens.Red);
         }
     }
 }
