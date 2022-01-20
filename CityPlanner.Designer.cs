@@ -126,8 +126,6 @@ namespace city_planner
             this.radioButton1.Text = "Add Point";
             this.radioButton1.UseVisualStyleBackColor = true;
             this.radioButton1.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
-            System.EventHandler handler = (s, ee) => { };
-            cityPlan1.addPoint += handler;
                 // 
                 // tabPage2
                 // 

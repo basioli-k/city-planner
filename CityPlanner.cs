@@ -18,6 +18,8 @@ namespace city_planner
         public CityPlanner()
         {
             InitializeComponent();
+            System.EventHandler handler = (s, ee) => { };
+            cityPlan1.addPoint += handler;
             cityPlan1.TabIndex = 0;
         }
 
@@ -181,10 +183,58 @@ namespace city_planner
             textBox3.Text = t.ToString();
         }
 
+        private Label GetLabelFromText(string text, bool bold = false)
+        {
+            Label label = new Label();
+            label.Text = text;
+            label.Left = panel1.Location.X + 5;
+            label.Width = panel1.Width / 2;
+            if (bold) label.Font = new Font(label.Font, FontStyle.Bold); ;
+            return label;
+        }
         private void radioButton7_CheckedChanged(object sender, EventArgs e)
         {
-            EventHandler handler = (s, ee) => { };
-                    
+            EventHandler<PlannerObject> handler = (snd, obj) =>
+            {
+                labels.Clear();
+                switch (obj)
+                {
+                    case Node n:
+                        if (n.Characteristics.Count == 0) labels.Add(GetLabelFromText("No characteristics.", true));
+                        else labels.Add(GetLabelFromText("Characteristics:", true));
+                        foreach (var c in n.Characteristics)
+                        {
+                            Label label = GetLabelFromText(c);
+                            labels.Add(label);
+                        }
+
+                        var from = cityPlan1.ListRoads.Count<Road>(road => road.Src == n.Id);
+                        var to = cityPlan1.ListRoads.Count<Road>(road => road.Dest == n.Id);
+
+                        labels.Add(GetLabelFromText(from.ToString() + (from == 1 ? " road ": " roads ") + "from"));
+                        labels.Add(GetLabelFromText(to.ToString() + (to == 1 ? " road " : " roads ") + "to"));
+                        drawPanel();
+                        break;
+                    case Road r:
+                        if (r.Characteristics.Count == 0) labels.Add(GetLabelFromText("No characteristics.", true));
+                        else labels.Add(GetLabelFromText("Characteristics:", true));
+                        foreach (var c in r.Characteristics)
+                        {
+                            Label label = GetLabelFromText(c);
+                            labels.Add(label);
+                        }
+
+                        var trafficIntensity = cityPlan1.GetTrafficIntensity(r);
+                        labels.Add(GetLabelFromText("Traffic intensity is: " + trafficIntensity.ToString()));
+
+                        drawPanel();
+                        break;
+                    default:
+                        break;
+                }
+            };
+
+
             if (radioButton7.Checked)
             {
                 cityPlan1.getObjectDetails += handler;
@@ -226,7 +276,6 @@ namespace city_planner
                 Button btn = new Button();
                 btn.Text = "delete";
                 btn.Left = panel1.Location.X + panel1.Width - btn.Width - 30;
-
                 labels.Add(label);
                 buttons.Add(btn);
 
@@ -246,7 +295,7 @@ namespace city_planner
         {
             SuspendLayout();
             panel1.Controls.Clear();
-            for (int i = 0; i < buttons.Count; i++)
+            for (int i = 0; i < labels.Count; i++)
             {
                 labels[i].Top = 8 + 25 * i;
 

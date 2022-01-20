@@ -42,7 +42,7 @@ namespace city_planner
         public event EventHandler addPoint;
         public event EventHandler addLine;
         public event EventHandler deleteObject;
-        public event EventHandler getObjectDetails;
+        public event EventHandler<PlannerObject> getObjectDetails;
 
         private void CityPlan_MouseClick(object sender, MouseEventArgs e)
         {
@@ -278,7 +278,7 @@ namespace city_planner
                 {
                     if ( Math.Sqrt((x - nd.X) * (x - nd.X) + (y - nd.Y) * (y - nd.Y)) <= vertex_radius)
                     {
-                        MessageBox.Show(nd.ToString());
+                        getObjectDetails(o, nd);
                         return;
                     }
                 }
@@ -287,7 +287,7 @@ namespace city_planner
                 {
                     if (IsPointOnRoad(road, x, y))
                     {
-                        MessageBox.Show(road.ToString());
+                        getObjectDetails(o, road);
                         return;
                     }
                 }
@@ -382,5 +382,37 @@ namespace city_planner
             return characteristics;
         }
 
+
+        // number of shortest paths the road participates in
+        public long GetTrafficIntensity(Road r)
+        {
+            Dijkstra dijkstra = new Dijkstra(listRoads);
+            long intensity = 0;
+            foreach (var n1 in listNodes)
+            {
+                foreach(var n2 in listNodes)
+                {
+                    if (n1.Id != n2.Id)
+                    {
+                        var result = dijkstra.calculateRoute(n1.Id, n2.Id, listNodes);
+                        List<long> path = result.Item2;
+                        intensity += IsRoadOnPath(path, r);
+                    }
+                    
+                }
+            }
+
+            return intensity;
+        }
+
+        private long IsRoadOnPath(List<long> path, Road r)
+        {
+            for(int i = 0; i < path.Count - 1; ++i)
+            {
+                if (path[i] == r.Src && path[i + 1] == r.Dest) 
+                    return 1;
+            }
+            return 0;
+        }
     }
 }

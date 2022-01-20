@@ -9,18 +9,16 @@ namespace city_planner
 {
     // Node class which represents crossroads/squares
     // Node class takes care of its interaction with the database
-    public class Node
+    public class Node : PlannerObject
     {
         private long id;
         private long x;
         private long y;
-        private List<string> characteristics;
 
         public long Id { get { return id; } set { id = value; } }
         public long X { get { return x; } set { x = value; } }
         public long Y { get { return y; } set { y = value; } }
-        public List<string> Characteristics { get { return characteristics; } set { characteristics= value; } }
-
+        
         private List<Node> GetNodeFromDb(long x_, long y_)
         {
             var db = Database.GetInstance();
@@ -148,6 +146,8 @@ namespace city_planner
             x = (long)reader["x"];
             y = (long)reader["y"];
             characteristics = ((string)reader["characteristics"]).Split(',').ToList<string>();
+            if (characteristics.Count == 1 && characteristics[0] == "")
+                characteristics = new List<string>();
         }
 
         private void insert()
@@ -188,43 +188,5 @@ namespace city_planner
             return id.ToString() + "," + x.ToString() + "," + y.ToString() + "," + String.Join(" ", characteristics);
         }
 
-        public bool hasAllCharacteristics(List<string> chars)
-        {
-            foreach (var c in chars)
-            {
-                if (!characteristics.Contains(c)) return false;
-            }
-
-            return true;
-        }
-
-        public bool hasAnyCharacteristics(List<string> chars)
-        {
-            foreach (var c in chars)
-            {
-                if (characteristics.Contains(c)) return true;
-            }
-
-            return false;
-        }
-
-        //public override bool Equals(object o)
-        //{
-        //    return ((Node)o).id == id;
-        //}
-        //public override int GetHashCode()
-        //{
-        //    return this.ToString().GetHashCode();
-        //}
-        //public static bool operator ==(Node n1, Node n2)
-        //{
-        //    if ((object)n1 == null || (object)n2 == null) return false;
-        //    return n1.Equals(n2);
-        //}
-        //public static bool operator !=(Node n1, Node n2)
-        //{
-        //    if ((object)n1 == null || (object)n2 == null) return true;
-        //    return !n1.Equals(n2);
-        //}
     }
 }

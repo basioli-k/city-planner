@@ -15,12 +15,11 @@ namespace city_planner
     }
     // Road class which represents crossroads/squares
     // Road class takes care of its interaction with the database
-    public class Road
+    public class Road : PlannerObject
     {
         private long id;
         private long src;
         private long dest;
-        private List<string> characteristics;
         
         public long Id
         {
@@ -33,10 +32,6 @@ namespace city_planner
         public long Dest
         {
             get { return dest; } set { dest = value; }
-        }
-        public List<string> Characteristics
-        {
-            get { return characteristics; } set { characteristics = value; }
         }
         public double Distance()
         {
@@ -173,6 +168,8 @@ namespace city_planner
             src = (long)reader["src"];
             dest = (long)reader["dest"];
             characteristics = ((string)reader["characteristics"]).Split(',').ToList<string>();
+            if (characteristics.Count == 1 && characteristics[0] == "")
+                characteristics = new List<string>();
         }
 
         private void insert()
@@ -209,45 +206,5 @@ namespace city_planner
         {
             return id.ToString() + "," + src.ToString() + "," + dest.ToString() + "," + String.Join(" ", characteristics);
         }
-
-        public bool hasAllCharacteristics(List<string> chars)
-        {
-            if (chars.Count != characteristics.Count) return false;
-
-            foreach(var c in chars)
-            {
-                if (!characteristics.Contains(c)) return false;
-            }
-
-            return true;
-        }
-
-        public bool hasAnyCharacteristics(List<string> chars)
-        {
-            foreach (var c in chars)
-            {
-                if (characteristics.Contains(c)) return true;
-            }
-
-            return false;
-        }
-
-        //public override bool Equals(object o)
-        //{
-        //    if (!base.Equals(o) || GetType() != o.GetType()) return false;
-        //    return ((Road)o).id == id;
-        //}
-        //public override int GetHashCode()
-        //{
-        //    return this.ToString().GetHashCode();
-        //}
-        //public static bool operator ==(Road r1, Road r2)
-        //{  
-        //    return r1.Equals(r2);  
-        //}
-        //public static bool operator !=(Road r1, Road r2)
-        //{
-        //    return !r1.Equals(r2);
-        //}
     }
 }
