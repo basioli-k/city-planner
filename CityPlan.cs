@@ -12,8 +12,8 @@ namespace city_planner
 {
     public partial class CityPlan : UserControl
     {
-        readonly double vertex_radius = 10;
-        readonly double road_width = 3;
+        readonly double vertex_radius = 15;
+        readonly double road_width = 6;
 
         private int firstX = -1;
         private int firstY = -1;
@@ -34,6 +34,7 @@ namespace city_planner
         public int FirstY { get { return firstY; } set { firstY = value; } }
         public List<Node> ListNodes { get { return listNodes; } }
         public List<Road> ListRoads { get { return listRoads; } }
+        public double RoadWidth { get { return road_width; } }
         public CityPlan()
         {
             InitializeComponent();
@@ -338,12 +339,12 @@ namespace city_planner
 
         private void CityPlan_Load(object sender, EventArgs e)
         {
-            //DrawAllPointsAndRoads();
+            DrawAllPointsAndRoads();
         }
 
         private void CityPlan_Paint(object sender, PaintEventArgs e)
         {
-            //DrawAllPointsAndRoads();
+            DrawAllPointsAndRoads();
         }
 
         public void DrawAllPointsAndRoads(List<Node> filterNodes = null, List<Road> filterRoads = null, Brush filterNodeBrush = null, Pen filterRoadPen = null)

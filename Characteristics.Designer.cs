@@ -39,10 +39,11 @@ namespace city_planner
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(14, 49);
+            this.label1.Font = new System.Drawing.Font("Century Gothic", 15F);
+            this.label1.Location = new System.Drawing.Point(14, 39);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(142, 20);
+            this.label1.Size = new System.Drawing.Size(234, 31);
             this.label1.TabIndex = 0;
             this.label1.Text = "Set characteristics";
             // 

@@ -197,6 +197,7 @@ namespace city_planner
             EventHandler<PlannerObject> handler = (snd, obj) =>
             {
                 labels.Clear();
+                Pen roadPen = new Pen(Color.Red, (float)cityPlan1.RoadWidth);
                 switch (obj)
                 {
                     case Node n:
@@ -214,6 +215,8 @@ namespace city_planner
                         labels.Add(GetLabelFromText(from.ToString() + (from == 1 ? " road ": " roads ") + "from"));
                         labels.Add(GetLabelFromText(to.ToString() + (to == 1 ? " road " : " roads ") + "to"));
                         drawPanel();
+                        
+                        cityPlan1.DrawAllPointsAndRoads(new List<Node> { n }, new List<Road>(), Brushes.Red, roadPen);
                         break;
                     case Road r:
                         if (r.Characteristics.Count == 0) labels.Add(GetLabelFromText("No characteristics.", true));
@@ -228,6 +231,7 @@ namespace city_planner
                         labels.Add(GetLabelFromText("Traffic intensity is: " + trafficIntensity.ToString()));
 
                         drawPanel();
+                        cityPlan1.DrawAllPointsAndRoads(new List<Node>(), new List<Road> { r }, Brushes.Red, roadPen);
                         break;
                     default:
                         break;
@@ -276,6 +280,7 @@ namespace city_planner
                 Button btn = new Button();
                 btn.Text = "delete";
                 btn.Left = panel1.Location.X + panel1.Width - btn.Width - 30;
+                btn.Height += 10;
                 labels.Add(label);
                 buttons.Add(btn);
 
