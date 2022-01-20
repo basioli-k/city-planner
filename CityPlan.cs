@@ -338,12 +338,12 @@ namespace city_planner
 
         private void CityPlan_Load(object sender, EventArgs e)
         {
-            DrawAllPointsAndRoads();
+            //DrawAllPointsAndRoads();
         }
 
         private void CityPlan_Paint(object sender, PaintEventArgs e)
         {
-            DrawAllPointsAndRoads();
+            //DrawAllPointsAndRoads();
         }
 
         public void DrawAllPointsAndRoads(List<Node> filterNodes = null, List<Road> filterRoads = null, Brush filterNodeBrush = null, Pen filterRoadPen = null)
@@ -351,7 +351,7 @@ namespace city_planner
             SuspendLayout();
             var g = CreateGraphics();
             g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-            g.Clear(Color.White);
+            g.Clear(Color.FromArgb(41, 44, 51));
             listNodes = Node.select_star();
             listRoads = Road.select_star();
             Pen blackPen = new Pen(Color.Black, (float)road_width);
