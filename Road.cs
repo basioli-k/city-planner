@@ -47,7 +47,7 @@ namespace city_planner
             var res = db.ExecuteQuery<Node>(sql);
             if (res.Count != 2)
                 throw new InvalidSrcDestPair("(" + src.ToString() + "," + dest.ToString() + ") node pairs not in database.");
-            return new Tuple<Node, Node>(res[0], res[1]);
+            return new Tuple<Node, Node>(res[0].Id == src ? res[0] : res[1], res[1].Id == dest ? res[1] : res[0]);
         }
         private List<Road> GetRoadFromDb(long src_, long dest_)
         {

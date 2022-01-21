@@ -18,8 +18,8 @@ namespace city_planner
         public CityPlanner()
         {
             InitializeComponent();
-            System.EventHandler handler = (s, ee) => { };
-            cityPlan1.addPoint += handler;
+            radioButton1.Checked = true;
+
             cityPlan1.TabIndex = 0;
         }
 
@@ -63,7 +63,7 @@ namespace city_planner
             }
             else
             {
-                cityPlan1.deleteObject-= handler;
+                cityPlan1.deleteObject -= handler;
             }
         }
 
@@ -142,16 +142,6 @@ namespace city_planner
             {
                 radioButton7.Checked = true;
             }
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label1_Click_1(object sender, EventArgs e)
-        {
-
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)

@@ -13,7 +13,7 @@ namespace city_planner
 {
     public partial class CityPlan : UserControl
     {
-        readonly double vertex_radius = 15;
+        readonly double vertex_radius = 7;
         readonly double road_width = 5;
 
         private int firstX = -1;
@@ -319,7 +319,7 @@ namespace city_planner
             var g = CreateGraphics();
             g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
 
-            g.FillEllipse(brush, insertingNode.X - (int)vertex_radius / 2, insertingNode.Y - (int)vertex_radius / 2, (float)vertex_radius, (float)vertex_radius);
+            g.FillEllipse(brush, insertingNode.X - (int)vertex_radius, insertingNode.Y - (int)vertex_radius , (float)vertex_radius * 2, (float)vertex_radius * 2);
         }
 
         void drawRoad(Road road, Pen pen)
@@ -361,23 +361,13 @@ namespace city_planner
             listRoads = Road.select_star();
             Pen blackPen = new Pen(Color.Black, (float)road_width);
             foreach (var node in listNodes)
-            {
-                if (filterNodes != null && filterNodes.FindIndex(nd => nd.Id == node.Id) != -1) continue;
-                else drawNode(node, Brushes.Black);
-            }
+                if (!(filterNodes != null && filterNodes.FindIndex(nd => nd.Id == node.Id) != -1)) drawNode(node, Brushes.Black);
             foreach (var road in listRoads)
-            {
-                if (filterRoads != null && filterRoads.FindIndex(rd => rd.Id == road.Id) != -1) continue;
-                else drawRoad(road, blackPen);
-            }
+                if (!(filterRoads != null && filterRoads.FindIndex(rd => rd.Id == road.Id) != -1)) drawRoad(road, blackPen);
             foreach (var node in listNodes)
-            {
                 if (filterNodes != null && filterNodes.FindIndex(nd => nd.Id == node.Id) != -1) drawNode(node, filterNodeBrush);
-            }
             foreach (var road in listRoads)
-            {
                 if (filterRoads != null && filterRoads.FindIndex(rd => rd.Id == road.Id) != -1) drawRoad(road, filterRoadPen);
-            }
             ResumeLayout();
         }
 
