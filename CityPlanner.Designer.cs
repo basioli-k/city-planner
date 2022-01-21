@@ -80,11 +80,11 @@ namespace city_planner
             this.tabPage1.Controls.Add(this.radioButton3);
             this.tabPage1.Controls.Add(this.radioButton2);
             this.tabPage1.Controls.Add(this.radioButton1);
-            this.tabPage1.Location = new System.Drawing.Point(4, 30);
+            this.tabPage1.Location = new System.Drawing.Point(4, 25);
             this.tabPage1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabPage1.Size = new System.Drawing.Size(459, 445);
+            this.tabPage1.Size = new System.Drawing.Size(459, 450);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Controls";
             // 
@@ -94,7 +94,7 @@ namespace city_planner
             this.radioButton3.Location = new System.Drawing.Point(9, 83);
             this.radioButton3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.radioButton3.Name = "radioButton3";
-            this.radioButton3.Size = new System.Drawing.Size(151, 25);
+            this.radioButton3.Size = new System.Drawing.Size(112, 21);
             this.radioButton3.TabIndex = 2;
             this.radioButton3.TabStop = true;
             this.radioButton3.Text = "Delete Object";
@@ -107,7 +107,7 @@ namespace city_planner
             this.radioButton2.Location = new System.Drawing.Point(9, 44);
             this.radioButton2.Margin = new System.Windows.Forms.Padding(4);
             this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(105, 25);
+            this.radioButton2.Size = new System.Drawing.Size(82, 21);
             this.radioButton2.TabIndex = 1;
             this.radioButton2.TabStop = true;
             this.radioButton2.Text = "Add Line";
@@ -121,7 +121,7 @@ namespace city_planner
             this.radioButton1.Location = new System.Drawing.Point(9, 8);
             this.radioButton1.Margin = new System.Windows.Forms.Padding(4);
             this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(114, 25);
+            this.radioButton1.Size = new System.Drawing.Size(87, 21);
             this.radioButton1.TabIndex = 0;
             this.radioButton1.TabStop = true;
             this.radioButton1.Text = "Add Point";
@@ -141,35 +141,35 @@ namespace city_planner
             this.tabPage2.Controls.Add(this.textBox2);
             this.tabPage2.Controls.Add(this.textBox1);
             this.tabPage2.Controls.Add(this.label1);
-            this.tabPage2.Location = new System.Drawing.Point(4, 30);
+            this.tabPage2.Location = new System.Drawing.Point(4, 25);
             this.tabPage2.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPage2.Size = new System.Drawing.Size(459, 445);
+            this.tabPage2.Size = new System.Drawing.Size(459, 450);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Route planning";
             // 
             // radioButton6
             // 
             this.radioButton6.AutoSize = true;
-            this.radioButton6.Location = new System.Drawing.Point(197, 76);
+            this.radioButton6.Location = new System.Drawing.Point(288, 48);
             this.radioButton6.Margin = new System.Windows.Forms.Padding(4);
             this.radioButton6.Name = "radioButton6";
-            this.radioButton6.Size = new System.Drawing.Size(77, 25);
+            this.radioButton6.Size = new System.Drawing.Size(76, 21);
             this.radioButton6.TabIndex = 12;
-            this.radioButton6.Text = "Noge";
+            this.radioButton6.Text = "Walking";
             this.radioButton6.UseVisualStyleBackColor = true;
             this.radioButton6.CheckedChanged += new System.EventHandler(this.radioButton6_CheckedChanged);
             // 
             // radioButton5
             // 
             this.radioButton5.AutoSize = true;
-            this.radioButton5.Location = new System.Drawing.Point(103, 76);
+            this.radioButton5.Location = new System.Drawing.Point(210, 48);
             this.radioButton5.Margin = new System.Windows.Forms.Padding(4);
             this.radioButton5.Name = "radioButton5";
-            this.radioButton5.Size = new System.Drawing.Size(70, 25);
+            this.radioButton5.Size = new System.Drawing.Size(70, 21);
             this.radioButton5.TabIndex = 11;
-            this.radioButton5.Text = "Bicikl";
+            this.radioButton5.Text = "Bicycle";
             this.radioButton5.UseVisualStyleBackColor = true;
             this.radioButton5.CheckedChanged += new System.EventHandler(this.radioButton5_CheckedChanged);
             // 
@@ -179,60 +179,60 @@ namespace city_planner
             this.label4.Location = new System.Drawing.Point(10, 50);
             this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(173, 21);
+            this.label4.Size = new System.Drawing.Size(131, 17);
             this.label4.TabIndex = 10;
-            this.label4.Text = "Prijevozno sredstvo:";
+            this.label4.Text = "Means of transport:";
             // 
             // radioButton4
             // 
             this.radioButton4.AutoSize = true;
             this.radioButton4.Checked = true;
-            this.radioButton4.Location = new System.Drawing.Point(16, 76);
+            this.radioButton4.Location = new System.Drawing.Point(154, 48);
             this.radioButton4.Margin = new System.Windows.Forms.Padding(4);
             this.radioButton4.Name = "radioButton4";
-            this.radioButton4.Size = new System.Drawing.Size(72, 25);
+            this.radioButton4.Size = new System.Drawing.Size(48, 21);
             this.radioButton4.TabIndex = 9;
             this.radioButton4.TabStop = true;
-            this.radioButton4.Text = "Auto";
+            this.radioButton4.Text = "Car";
             this.radioButton4.UseVisualStyleBackColor = true;
             this.radioButton4.CheckedChanged += new System.EventHandler(this.radioButton4_CheckedChanged);
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(10, 349);
+            this.label3.Location = new System.Drawing.Point(10, 420);
             this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(125, 21);
+            this.label3.Size = new System.Drawing.Size(104, 17);
             this.label3.TabIndex = 8;
-            this.label3.Text = "Trajanje puta:";
+            this.label3.Text = "Estimated time:";
             // 
             // textBox3
             // 
-            this.textBox3.Location = new System.Drawing.Point(139, 344);
+            this.textBox3.Location = new System.Drawing.Point(139, 417);
             this.textBox3.Margin = new System.Windows.Forms.Padding(4);
             this.textBox3.Name = "textBox3";
             this.textBox3.ReadOnly = true;
-            this.textBox3.Size = new System.Drawing.Size(303, 28);
+            this.textBox3.Size = new System.Drawing.Size(312, 23);
             this.textBox3.TabIndex = 7;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(10, 307);
+            this.label2.Location = new System.Drawing.Point(10, 386);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(103, 21);
+            this.label2.Size = new System.Drawing.Size(67, 17);
             this.label2.TabIndex = 6;
-            this.label2.Text = "Udaljenost:";
+            this.label2.Text = "Distance:";
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(139, 302);
+            this.textBox2.Location = new System.Drawing.Point(139, 383);
             this.textBox2.Margin = new System.Windows.Forms.Padding(4);
             this.textBox2.Name = "textBox2";
             this.textBox2.ReadOnly = true;
-            this.textBox2.Size = new System.Drawing.Size(303, 28);
+            this.textBox2.Size = new System.Drawing.Size(312, 23);
             this.textBox2.TabIndex = 5;
             // 
             // textBox1
@@ -240,7 +240,7 @@ namespace city_planner
             this.textBox1.Location = new System.Drawing.Point(139, 9);
             this.textBox1.Margin = new System.Windows.Forms.Padding(4);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(303, 28);
+            this.textBox1.Size = new System.Drawing.Size(312, 23);
             this.textBox1.TabIndex = 4;
             this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
@@ -250,9 +250,9 @@ namespace city_planner
             this.label1.Location = new System.Drawing.Point(10, 14);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(127, 21);
+            this.label1.Size = new System.Drawing.Size(98, 17);
             this.label1.TabIndex = 3;
-            this.label1.Text = "Karakteristika:";
+            this.label1.Text = "Characteristic:";
             this.label1.Click += new System.EventHandler(this.label1_Click_1);
             // 
             // tabPage3
@@ -264,10 +264,10 @@ namespace city_planner
             this.tabPage3.Controls.Add(this.textBox4);
             this.tabPage3.Controls.Add(this.radioButton8);
             this.tabPage3.Controls.Add(this.radioButton7);
-            this.tabPage3.Location = new System.Drawing.Point(4, 30);
+            this.tabPage3.Location = new System.Drawing.Point(4, 25);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(459, 445);
+            this.tabPage3.Size = new System.Drawing.Size(459, 450);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Characteristics";
             // 
@@ -304,7 +304,7 @@ namespace city_planner
             // 
             this.textBox4.Location = new System.Drawing.Point(17, 88);
             this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(158, 28);
+            this.textBox4.Size = new System.Drawing.Size(158, 23);
             this.textBox4.TabIndex = 2;
             // 
             // radioButton8
@@ -312,7 +312,7 @@ namespace city_planner
             this.radioButton8.AutoSize = true;
             this.radioButton8.Location = new System.Drawing.Point(8, 43);
             this.radioButton8.Name = "radioButton8";
-            this.radioButton8.Size = new System.Drawing.Size(227, 25);
+            this.radioButton8.Size = new System.Drawing.Size(174, 21);
             this.radioButton8.TabIndex = 1;
             this.radioButton8.TabStop = true;
             this.radioButton8.Text = "Highlight objects with ...";
@@ -324,7 +324,7 @@ namespace city_planner
             this.radioButton7.AutoSize = true;
             this.radioButton7.Location = new System.Drawing.Point(8, 8);
             this.radioButton7.Name = "radioButton7";
-            this.radioButton7.Size = new System.Drawing.Size(184, 25);
+            this.radioButton7.Size = new System.Drawing.Size(136, 21);
             this.radioButton7.TabIndex = 0;
             this.radioButton7.TabStop = true;
             this.radioButton7.Text = "Get object details";
@@ -353,13 +353,13 @@ namespace city_planner
             // 
             // CityPlanner
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 21F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(30)))), ((int)(((byte)(54)))));
             this.ClientSize = new System.Drawing.Size(1313, 681);
             this.Controls.Add(this.cityPlan1);
             this.Controls.Add(this.tabControl1);
-            this.Font = new System.Drawing.Font("Century Gothic", 10F);
+            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(62)))), ((int)(((byte)(120)))), ((int)(((byte)(138)))));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);

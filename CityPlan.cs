@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,7 +14,7 @@ namespace city_planner
     public partial class CityPlan : UserControl
     {
         readonly double vertex_radius = 15;
-        readonly double road_width = 6;
+        readonly double road_width = 5;
 
         private int firstX = -1;
         private int firstY = -1;
@@ -334,6 +335,9 @@ namespace city_planner
             var g = CreateGraphics();
             g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
 
+
+            AdjustableArrowCap bigArrow = new AdjustableArrowCap(2, 6);
+            pen.CustomEndCap = bigArrow;
             g.DrawLine(pen, Node1.X, Node1.Y, Node2.X, Node2.Y);
         }
 
@@ -358,14 +362,21 @@ namespace city_planner
             Pen blackPen = new Pen(Color.Black, (float)road_width);
             foreach (var node in listNodes)
             {
-                if (filterNodes != null && filterNodes.FindIndex(nd => nd.Id == node.Id) != -1) drawNode(node, filterNodeBrush);
+                if (filterNodes != null && filterNodes.FindIndex(nd => nd.Id == node.Id) != -1) continue;
                 else drawNode(node, Brushes.Black);
             }
-
+            foreach (var road in listRoads)
+            {
+                if (filterRoads != null && filterRoads.FindIndex(rd => rd.Id == road.Id) != -1) continue;
+                else drawRoad(road, blackPen);
+            }
+            foreach (var node in listNodes)
+            {
+                if (filterNodes != null && filterNodes.FindIndex(nd => nd.Id == node.Id) != -1) drawNode(node, filterNodeBrush);
+            }
             foreach (var road in listRoads)
             {
                 if (filterRoads != null && filterRoads.FindIndex(rd => rd.Id == road.Id) != -1) drawRoad(road, filterRoadPen);
-                else drawRoad(road, blackPen);
             }
             ResumeLayout();
         }
