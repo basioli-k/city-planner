@@ -13,6 +13,7 @@ namespace city_planner
     public partial class Characteristics : Form
     {
         private int i = 0;
+        private bool biDirectional = false;
         List<Button> listOfButtons = new List<Button>();
         List<Label> listOfLabels = new List<Label>();
         public string text { get; set; }
@@ -23,10 +24,15 @@ namespace city_planner
             get { return finalCharacteristics; }
             set { finalCharacteristics = value; }
         }
+        public bool BiDirectional {
+            get { return biDirectional; }
+            set { biDirectional = value; }
+        }
 
-        public Characteristics()
+        public Characteristics(bool isRoad)
         {
             InitializeComponent();
+            checkBox1.Visible = isRoad;
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -97,6 +103,11 @@ namespace city_planner
             {
                 finalCharacteristics.Add(listOfLabels[i].Text);
             }
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            biDirectional = checkBox1.Checked;
         }
     }
 }

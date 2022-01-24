@@ -20,6 +20,7 @@ namespace city_planner
         private long id;
         private long src;
         private long dest;
+        private bool biDir;
         
         public long Id
         {
@@ -32,6 +33,11 @@ namespace city_planner
         public long Dest
         {
             get { return dest; } set { dest = value; }
+        }
+        public bool BiDir
+        {
+            get { return biDir; }
+            set { biDir = value; }
         }
         public double Distance()
         {
@@ -56,8 +62,9 @@ namespace city_planner
         }
         Road() { }
 
-        public Road(long src_, long dest_)
+        public Road(long src_, long dest_, bool biDir_ = false)
         {
+            biDir = biDir_;
             var temp = GetRoadFromDb(src_, dest_);
             if (temp.Count() == 0)
             {
@@ -77,8 +84,9 @@ namespace city_planner
             }
         }
 
-        public Road(long id_, long src_, long dest_, string characteristics_)
+        public Road(long id_, long src_, long dest_, string characteristics_, bool biDir_ = false)
         {
+            biDir = biDir_;
             var temp = GetRoadFromDb(src_, dest_);
             if (temp.Count() == 0)
             {
@@ -99,8 +107,9 @@ namespace city_planner
             }
             
         }
-        public Road(long id_, long src_, long dest_, List<string> characteristics_)
+        public Road(long id_, long src_, long dest_, List<string> characteristics_, bool biDir_ = false)
         {
+            biDir = biDir_;
             var temp = GetRoadFromDb(src_, dest_);
             if (temp.Count() == 0)
             {
@@ -120,8 +129,9 @@ namespace city_planner
                 update();
             }
         }
-        public Road(long src_, long dest_, string characteristics_)
+        public Road(long src_, long dest_, string characteristics_, bool biDir_)
         {
+            biDir = biDir_;
             var temp = GetRoadFromDb(src_, dest_);
             if (temp.Count() == 0)
             {
@@ -141,8 +151,9 @@ namespace city_planner
                 update();
             }
         }
-        public Road(long src_, long dest_, List<string> characteristics_)
+        public Road(long src_, long dest_, List<string> characteristics_, bool biDir_ = false)
         {
+            biDir = biDir_;
             var temp = GetRoadFromDb(src_, dest_);
             if (temp.Count() == 0)
             {
@@ -164,6 +175,7 @@ namespace city_planner
         }
         public Road(SQLiteDataReader reader)
         {
+            biDir = (long)reader["biDir"] == 1;
             id = (long)reader["id"];
             src = (long)reader["src"];
             dest = (long)reader["dest"];
@@ -174,8 +186,8 @@ namespace city_planner
 
         private void insert()
         {
-            string sql = "INSERT INTO Road (src, dest, characteristics) VALUES(" +
-                src.ToString() + "," + dest.ToString() + ",\"" + String.Join(",", characteristics) + "\");";
+            string sql = "INSERT INTO Road (src, dest, characteristics, biDir) VALUES(" +
+                src.ToString() + "," + dest.ToString() + ",\"" + String.Join(",", characteristics) + "\"," + (biDir ? "1" : "0") + ");";
 
             var db = Database.GetInstance();
             db.ExecuteNonQuery(sql);

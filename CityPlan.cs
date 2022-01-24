@@ -67,8 +67,7 @@ namespace city_planner
             var x = e.X;
             var y = e.Y;
             bool roadValid = false;
-            List<string> charactericstics = new List<string>();
-
+            
             listNodes = Node.select_star();
             listRoads = Road.select_star();
             if(addPoint != null)
@@ -83,18 +82,15 @@ namespace city_planner
                     }
                 }
                 if (!overlap) {
-                    charactericstics = popup();
+                    var charsAndBidir= popup(false);
                     Node insertingNode = new Node();
-                    if (charactericstics == null)
+                    if (charsAndBidir.Item1 != null)
                     {
-                        insertingNode = new Node(x, y);
+                        insertingNode = new Node(x, y, charsAndBidir.Item1);
+                        listNodes.Add(insertingNode);
+                        drawNode(insertingNode, Brushes.Black);
                     }
-                    else
-                    { 
-                        insertingNode = new Node(x, y, charactericstics);
-                    }
-                    listNodes.Add(insertingNode);
-                    drawNode(insertingNode, Brushes.Black);
+                    
                 }
             }
 
@@ -137,10 +133,20 @@ namespace city_planner
 
                         Node Node1 = new Node(firstX, firstY);
                         Node Node2 = new Node(listNodes[i].X, listNodes[i].Y);
-                        Road insertingRoad = new Road(Node1.Id, Node2.Id);
-                        listRoads.Add(insertingRoad);
-                        Pen blackPen = new Pen(Color.FromArgb(255, 0, 0, 0), (float)road_width);
-                        drawLine(Node1, Node2, blackPen);
+                        var charsAndBidir = popup(true);
+                        if (charsAndBidir.Item1 != null)
+                        {
+                            Pen blackPen = new Pen(Color.FromArgb(255, 0, 0, 0), (float)road_width);
+                            Road insertingRoad = new Road(Node1.Id, Node2.Id, charsAndBidir.Item1, charsAndBidir.Item2);
+                            if (charsAndBidir.Item2)
+                            {
+                                Road otherDirection = new Road(Node2.Id, Node1.Id, charsAndBidir.Item1, charsAndBidir.Item2);
+                                listRoads.Add(otherDirection);
+                                drawLine(Node2, Node1, blackPen);
+                            }
+                            listRoads.Add(insertingRoad);
+                            drawLine(Node1, Node2, blackPen);
+                        }
                         firstX = -1;
                         firstY = -1;
                     }
@@ -335,10 +341,10 @@ namespace city_planner
             var g = CreateGraphics();
             g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
 
-
+            Pen penWithCap = new Pen(pen.Color, (float)road_width);
             AdjustableArrowCap bigArrow = new AdjustableArrowCap(2, 6);
-            pen.CustomEndCap = bigArrow;
-            g.DrawLine(pen, Node1.X, Node1.Y, Node2.X, Node2.Y);
+            penWithCap.CustomEndCap = bigArrow;
+            g.DrawLine(penWithCap, Node1.X, Node1.Y, Node2.X, Node2.Y);
         }
 
         private void CityPlan_Load(object sender, EventArgs e)
@@ -361,27 +367,47 @@ namespace city_planner
             listRoads = Road.select_star();
             Pen blackPen = new Pen(Color.Black, (float)road_width);
             foreach (var node in listNodes)
-                if (!(filterNodes != null && filterNodes.FindIndex(nd => nd.Id == node.Id) != -1)) drawNode(node, Brushes.Black);
-            foreach (var road in listRoads)
-                if (!(filterRoads != null && filterRoads.FindIndex(rd => rd.Id == road.Id) != -1)) drawRoad(road, blackPen);
-            foreach (var node in listNodes)
+            {
                 if (filterNodes != null && filterNodes.FindIndex(nd => nd.Id == node.Id) != -1) drawNode(node, filterNodeBrush);
+                else drawNode(node, Brushes.Black);
+            }
+                
             foreach (var road in listRoads)
-                if (filterRoads != null && filterRoads.FindIndex(rd => rd.Id == road.Id) != -1) drawRoad(road, filterRoadPen);
+            {
+                if (filterRoads != null && filterRoads.FindIndex(rd => rd.Id == road.Id) != -1)
+                {
+                    drawRoad(road, filterRoadPen);
+                    if (road.BiDir)
+                    {
+                        drawRoad(listRoads.Find(rd => rd.Src == road.Dest && rd.Dest == road.Src), filterRoadPen);
+                    }
+                }
+                else if (filterRoads == null || filterRoads.FindIndex(rd => rd.Src == road.Dest && rd.Dest == road.Src) == -1)
+                {
+                    drawRoad(road, blackPen);
+                }
+            }
+                
             ResumeLayout();
         }
 
-        List<string> popup()
+        Tuple<List<string>, bool> popup(bool isRoad)
         {
-            List<string> characteristics = new List<string>();
-            using (Characteristics ch = new Characteristics())
-            {
+            List<string> characteristics = null;
+            bool biDirectional = false;
+            using (Characteristics ch = new Characteristics(isRoad))
+            {  
                 if( ch.ShowDialog() == DialogResult.OK )
                 {
                     characteristics = ch.FinalCharacterictics;
+                    biDirectional = ch.BiDirectional;
+                }
+                else
+                {
+                    characteristics = null;
                 }
             }
-            return characteristics;
+            return new Tuple<List<string>, bool>(characteristics, biDirectional);
         }
 
 

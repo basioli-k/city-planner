@@ -187,7 +187,7 @@ namespace city_planner
             EventHandler<PlannerObject> handler = (snd, obj) =>
             {
                 labels.Clear();
-                Pen roadPen = new Pen(Color.Red, (float)cityPlan1.RoadWidth);
+                Pen roadPen = new Pen(Color.Green, (float)cityPlan1.RoadWidth);
                 switch (obj)
                 {
                     case Node n:
@@ -206,7 +206,7 @@ namespace city_planner
                         labels.Add(GetLabelFromText(to.ToString() + (to == 1 ? " road " : " roads ") + "to"));
                         drawPanel();
                         
-                        cityPlan1.DrawAllPointsAndRoads(new List<Node> { n }, new List<Road>(), Brushes.Red, roadPen);
+                        cityPlan1.DrawAllPointsAndRoads(new List<Node> { n }, new List<Road>(), Brushes.Green, roadPen);
                         break;
                     case Road r:
                         if (r.Characteristics.Count == 0) labels.Add(GetLabelFromText("No characteristics.", true));
@@ -221,7 +221,7 @@ namespace city_planner
                         labels.Add(GetLabelFromText("Traffic intensity is: " + trafficIntensity.ToString()));
 
                         drawPanel();
-                        cityPlan1.DrawAllPointsAndRoads(new List<Node>(), new List<Road> { r }, Brushes.Red, roadPen);
+                        cityPlan1.DrawAllPointsAndRoads(new List<Node>(), new List<Road> { r }, Brushes.Green, roadPen);
                         break;
                     default:
                         break;
@@ -311,7 +311,7 @@ namespace city_planner
             List<string> lbls = (from lbl in labels select lbl.Text).ToList<string>();
             var nodes = cityPlan1.ListNodes.FindAll(node => node.hasAllCharacteristics(lbls));
             var roads = cityPlan1.ListRoads.FindAll(road=> road.hasAllCharacteristics(lbls));
-            cityPlan1.DrawAllPointsAndRoads(nodes, roads, Brushes.Red, Pens.Red);
+            cityPlan1.DrawAllPointsAndRoads(nodes, roads, Brushes.Green, Pens.Green);
         }
     }
 }

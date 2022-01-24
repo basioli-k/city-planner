@@ -57,6 +57,7 @@ namespace city_planner
                 "src INTEGER,\n" +
                 "dest INTEGER,\n" +
                 "characteristics TEXT\n," +
+                "biDir INTEGER\n," +
                 "UNIQUE(src, dest) ON CONFLICT REPLACE\n" +
                 "FOREIGN KEY (src)\n" +  
                 "REFERENCES Node(id)\n" +
