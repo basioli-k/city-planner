@@ -81,6 +81,7 @@ namespace city_planner
                 src = temp[0].src;
                 dest = temp[0].dest;
                 characteristics = temp[0].characteristics;
+                biDir = temp[0].biDir;
             }
         }
 
@@ -103,6 +104,7 @@ namespace city_planner
                 src = temp[0].src;
                 dest = temp[0].dest;
                 characteristics = characteristics_.Split(',').ToList<string>();
+                biDir = temp[0].biDir;
                 update();
             }
             
@@ -126,6 +128,7 @@ namespace city_planner
                 src = temp[0].src;
                 dest = temp[0].dest;
                 characteristics = characteristics_;
+                biDir = temp[0].biDir;
                 update();
             }
         }
@@ -148,6 +151,7 @@ namespace city_planner
                 src = temp[0].src;
                 dest = temp[0].dest;
                 characteristics = characteristics_.Split(',').ToList<string>();
+                biDir = temp[0].biDir;
                 update();
             }
         }
@@ -170,6 +174,7 @@ namespace city_planner
                 src = temp[0].src;
                 dest = temp[0].dest;
                 characteristics = characteristics_;
+                biDir = temp[0].biDir;
                 update();
             }
         }
