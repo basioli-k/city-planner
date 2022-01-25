@@ -222,6 +222,8 @@ namespace city_planner
             Dijkstra dijkstra = new Dijkstra(listRoads);
             double dist = double.PositiveInfinity;
             List<long> path = new List<long>();
+            Node stopNode = null;
+            Road stopRoad = null;
 
             // Ako moramo stati negdje
             if (characteristic != "")
@@ -237,6 +239,7 @@ namespace city_planner
                         dist = dist1 + dist2;
                         path2.Remove(stop.Id);
                         path = path1.Concat(path2).ToList();
+                        stopNode = stop;
                     }
                 }
 
@@ -250,6 +253,7 @@ namespace city_planner
                     {
                         dist = dist1 + dist2 + road.Distance();
                         path = path1.Concat(path2).ToList();
+                        stopRoad = road;
                     }
                 }
             }
@@ -262,14 +266,19 @@ namespace city_planner
             print_dist?.Invoke(this, dist);
 
             List<Node> nodesToColor = listNodes.FindAll(node => path.Contains(node.Id));
-            List<Road> roadsToColor = listRoads.FindAll(road => {
-                var srcInd = path.IndexOf(road.Src);
-                var destInd = path.IndexOf(road.Dest);
-                return srcInd != -1 && destInd != -1 && srcInd == destInd - 1; 
-            });
+            List<Road> roadsToColor = new List<Road>();
+            foreach(var road in listRoads)
+                for (int i = 0; i < path.Count - 1; i++)
+                    if (road.Src == path[i] && road.Dest == path[i + 1])
+                        roadsToColor.Add(road);
 
             Pen roadPen = new Pen(Color.Blue, (float)road_width);
             DrawAllPointsAndRoads(nodesToColor, roadsToColor, Brushes.Blue, roadPen);
+
+            if (stopRoad != null)
+                drawRoad(stopRoad, new Pen(Color.Orange, (float)road_width));
+            else if (stopNode != null)
+                drawNode(stopNode, Brushes.Orange);
 
             start = -1;
             end = -1;
@@ -367,26 +376,24 @@ namespace city_planner
             listRoads = Road.select_star();
             Pen blackPen = new Pen(Color.Black, (float)road_width);
             foreach (var node in listNodes)
-            {
-                if (filterNodes != null && filterNodes.FindIndex(nd => nd.Id == node.Id) != -1) drawNode(node, filterNodeBrush);
-                else drawNode(node, Brushes.Black);
-            }
-                
-            foreach (var road in listRoads)
-            {
-                if (filterRoads != null && filterRoads.FindIndex(rd => rd.Id == road.Id) != -1)
+                if (!(filterNodes != null && filterNodes.FindIndex(nd => nd.Id == node.Id) != -1)) 
+                    drawNode(node, Brushes.Black);
+
+            foreach(var road in listRoads)
+                if (!(filterRoads != null && filterRoads.FindIndex(nd => nd.Id == road.Id) != -1))
+                    drawRoad(road, blackPen);
+
+            if (filterNodes != null)
+                foreach (var node in filterNodes)
+                    drawNode(node, filterNodeBrush);
+
+            if (filterRoads != null)
+                foreach (var road in filterRoads)
                 {
                     drawRoad(road, filterRoadPen);
                     if (road.BiDir)
-                    {
                         drawRoad(listRoads.Find(rd => rd.Src == road.Dest && rd.Dest == road.Src), filterRoadPen);
-                    }
                 }
-                else if (filterRoads == null || filterRoads.FindIndex(rd => rd.Src == road.Dest && rd.Dest == road.Src) == -1)
-                {
-                    drawRoad(road, blackPen);
-                }
-            }
                 
             ResumeLayout();
         }
