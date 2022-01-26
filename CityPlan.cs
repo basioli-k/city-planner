@@ -27,7 +27,7 @@ namespace city_planner
         private List<Road> listRoads = new List<Road>();
 
         private int tabIndex = 0;
-        public int IndexTab { get { return tabIndex; } set { tabIndex = value; } }
+        public int IndexTab { get { return tabIndex; } set { DrawAllPointsAndRoads(); tabIndex = value; } }
         public long Start { get { return start; } set { start = value; } }
         public long End { get { return end; } set { end = value; } }
         public string Characteristic { get { return characteristic; } set { characteristic = value; } }
