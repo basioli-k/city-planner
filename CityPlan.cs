@@ -456,6 +456,8 @@ namespace city_planner
             {
                 if (path[i] == r.Src && path[i + 1] == r.Dest) 
                     return 1;
+                if (r.BiDir && path[i] == r.Dest && path[i + 1] == r.Src)
+                    return 1;
             }
             return 0;
         }
