@@ -59,12 +59,14 @@ namespace city_planner
 
         }
 
+        // Izracunava najkraci put od start do end
         public (double, List<long>) calculateRoute(long start, long end, List<Node> listNodes)
         {
             Dictionary<long, long> previous = new Dictionary<long, long>();
             Dictionary<long, double> distance = new Dictionary<long, double>();
             HashSet<long> q = new HashSet<long>();
 
+            // inicijalizacija
             foreach(var node in listNodes)
             {
                 distance[node.Id] = double.MaxValue;
@@ -73,6 +75,7 @@ namespace city_planner
             }
             distance[start] = 0;
 
+            // dijkstring algoritam
             while (q.Count() != 0)
             {
                 double tmpdist = double.MaxValue;

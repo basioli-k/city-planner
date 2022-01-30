@@ -73,6 +73,7 @@ namespace city_planner
             if(addPoint != null)
             {
                 addPoint(this, EventArgs.Empty);
+                // provjeri preklapanja
                 bool overlap = false;
                 foreach (var node in listNodes)
                 {
@@ -203,6 +204,7 @@ namespace city_planner
             var x = e.X;
             var y = e.Y;
 
+            // provjeri da li je odabrani koji node
             foreach (var node in listNodes)
             {
                 if (Math.Sqrt((x - node.X) * (x - node.X) + (y - node.Y) * (y - node.Y)) <  vertex_radius / 2)
@@ -217,6 +219,7 @@ namespace city_planner
                 }
             }
 
+            // ako nisu odabrani start i end, nemozemo nista
             if (end == -1) return;
 
             Dijkstra dijkstra = new Dijkstra(listRoads);
@@ -228,7 +231,7 @@ namespace city_planner
             // Ako moramo stati negdje
             if (characteristic != "")
             {
-                // pronadi sva krizanja sa zadanom karakteristikom
+                // pronadi sva krizanja sa zadanom karakteristikom i probaj najkraci put preko njih
                 foreach (var stop in listNodes.FindAll(node => node.Characteristics.Contains(characteristic)))
                 {
                     (double dist1, List<long> path1) = dijkstra.calculateRoute(start, stop.Id, listNodes);
@@ -243,7 +246,7 @@ namespace city_planner
                     }
                 }
 
-                // pronadi sve ceste sa zadanom karakteriskom
+                // pronadi sve ceste sa zadanom karakteriskom i probaj najkraci put preko njih
                 foreach (var road in listRoads.FindAll(road => road.Characteristics.Contains(characteristic)))
                 {
                     (double dist1, List<long> path1) = dijkstra.calculateRoute(start, road.Src, listNodes);
@@ -265,6 +268,7 @@ namespace city_planner
 
             print_dist?.Invoke(this, dist);
 
+            // pronadi i obojaj sve potrebne ceste i krizanja
             List<Node> nodesToColor = listNodes.FindAll(node => path.Contains(node.Id));
             List<Road> roadsToColor = new List<Road>();
             foreach(var road in listRoads)
@@ -275,6 +279,12 @@ namespace city_planner
             Pen roadPen = new Pen(Color.Blue, (float)road_width);
             DrawAllPointsAndRoads(nodesToColor, roadsToColor, Brushes.Blue, roadPen);
 
+            // obojaj start i end u crveno.
+            drawNode(listNodes.Find(node => node.Id == start), Brushes.Red);
+            drawNode(listNodes.Find(node => node.Id == end), Brushes.Red);
+
+
+            // Ako smo negdje stali na putu, obojaj to u drugu boju
             if (stopRoad != null)
                 drawRoad(stopRoad, new Pen(Color.Orange, (float)road_width));
             else if (stopNode != null)

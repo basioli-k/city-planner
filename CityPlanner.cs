@@ -109,17 +109,21 @@ namespace city_planner
         {
             cityPlan1.IndexTab = tabControl1.SelectedIndex;
             uncheckRadioButtons();
+            // controls
             if (tabControl1.SelectedIndex == 0) 
             {
                 radioButton1.Checked = true;
             }
+            // route planning
             else if (tabControl1.SelectedIndex == 1)
             {
                 radioButton4.Checked = true;
+                // inicijalizacija
                 cityPlan1.Start = -1;
                 cityPlan1.End = -1;
                 textBox2.Text = "0";
                 textBox3.Text = TimeSpan.FromSeconds(0).ToString();
+                // e
                 cityPlan1.print_dist += (sender1, dist) =>
                 {
                     if (dist == double.PositiveInfinity)
@@ -138,6 +142,7 @@ namespace city_planner
                 };
                 
             }
+            // characteristics
             else if (tabControl1.SelectedIndex == 2)
             {
                 radioButton7.Checked = true;
@@ -149,6 +154,7 @@ namespace city_planner
             cityPlan1.Characteristic = textBox1.Text;
         }
 
+        // Odabir auta
         private void radioButton4_CheckedChanged(object sender, EventArgs e)
         {
             int x = 0;
@@ -157,6 +163,7 @@ namespace city_planner
             textBox3.Text = t.ToString();
         }
 
+        // Odabir bicikla
         private void radioButton5_CheckedChanged(object sender, EventArgs e)
         {
             int x = 0;
@@ -165,6 +172,7 @@ namespace city_planner
             textBox3.Text = t.ToString();
         }
 
+        // Odabir setanja
         private void radioButton6_CheckedChanged(object sender, EventArgs e)
         {
             int x = 0;
